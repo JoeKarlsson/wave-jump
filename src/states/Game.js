@@ -163,7 +163,7 @@ export default class GameState extends Phaser.State {
     this.waves.forEach(function (currentWave) {
       amp += this.game.rnd.between(-2, 2)
       var x = i * 0.1 + this.count
-      var y = Math.sin(x) * amp
+      var y = Math.sin(x + 2) * amp
       currentWave.y = y
 
       if (this.debug) {
@@ -179,6 +179,8 @@ export default class GameState extends Phaser.State {
   }
 
   endGameCollisionHandler (obj1, obj2) {
+    obj1.name = 'Player1'
+
     if (obj1.name === this.player.name) {
       this.state.start('Player1Win')
     } else {
