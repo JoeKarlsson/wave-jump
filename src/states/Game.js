@@ -27,6 +27,8 @@ export default class GameState extends Phaser.State {
       let y = 0
       let wave = this.game.add.sprite(x, y, 'tempWave', this.game.rnd.between(0, 1))
       wave.anchor.set(0.5, 0.5)
+      this.physics.enable(wave, Phaser.Physics.ARCADE)
+      wave.body.setSize(10, 40, 0, 0)
       this.waves.add(wave)
       wave.collideWorldBounds = true
       wave.body.immovable = true
@@ -70,9 +72,6 @@ export default class GameState extends Phaser.State {
   }
 
   initPlayers () {
-  }
-    
-  create () {
     this.player = new Player({
       game: this.game,
       x: this.world.left,
@@ -167,12 +166,6 @@ export default class GameState extends Phaser.State {
       var x = i * 0.1 + this.count
       var y = Math.sin(x) * amp
       currentWave.y = y
-
-      // var a = 50.0
-      // var b = 10.0
-      // var c = 0
-      // var y = a * Math.sin(b*i+this.count)*(-1)^c
-      // currentWave.y = y
 
       if (this.debug) {
         this.game.debug.text('Wave[' + i + ']: (' + currentWave.x + ',' + currentWave.y + ')', 10, 11 * i + 20)
