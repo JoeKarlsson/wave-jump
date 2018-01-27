@@ -1,6 +1,7 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import DevLeagueLogo from '../sprites/DevLeagueLogo'
+import Player from '../sprites/Player'
 
 export default class GameState extends Phaser.State {
   init () {}
@@ -23,7 +24,15 @@ export default class GameState extends Phaser.State {
       asset: 'devLeagueLogo'
     })
 
+    this.player = new Player({
+      game: this.game,
+      x: this.world.centerX,
+      y: this.world.centerY,
+      asset: 'player'
+    })
+
     this.game.add.existing(this.devLeagueLogo)
+    this.game.add.existing(this.player)
 
     //  In this example we'll create 4 specific keys (up, down, left, right) and monitor them in our update function
     this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.UP)
@@ -38,15 +47,19 @@ export default class GameState extends Phaser.State {
     }
 
     if (this.upKey.isDown) {
-      this.devLeagueLogo.y--
+      // this.devLeagueLogo.y--
+      this.player.y--
     } else if (this.downKey.isDown) {
-      this.devLeagueLogo.y++
+      // this.devLeagueLogo.y++
+      this.player.y++
     }
 
     if (this.leftKey.isDown) {
-      this.devLeagueLogo.x--
+      // this.devLeagueLogo.x--
+      this.player.x--
     } else if (this.rightKey.isDown) {
-      this.devLeagueLogo.x++
+      // this.devLeagueLogo.x++
+      this.player.x++
     }
   }
 }

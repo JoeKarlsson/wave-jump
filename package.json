@@ -8,8 +8,8 @@
     "dev": "webpack",
     "deploy": "webpack --config webpack.production.config.js",
     "test": "standard",
-		"lint": "eslint src",
-		"healthcheck": "npm run lint",
+    "lint": "eslint src",
+    "healthcheck": "npm run lint",
     "precommit": "npm run lint",
     "prepush": "npm prune && npm run healthcheck",
     "postmerge": "npm install"
