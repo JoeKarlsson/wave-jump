@@ -155,6 +155,12 @@ export default class GameState extends Phaser.State {
       var y = Math.sin(x) * amp
       currentWave.y = y
 
+      // var a = 50.0
+      // var b = 10.0
+      // var c = 0
+      // var y = a * Math.sin(b*i+this.count)*(-1)^c
+      // currentWave.y = y
+
       if (this.debug) {
         this.game.debug.text('Wave[' + i + ']: (' + currentWave.x + ',' + currentWave.y + ')', 10, 11 * i + 20)
       }
