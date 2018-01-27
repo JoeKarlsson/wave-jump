@@ -5,9 +5,9 @@ import Player from '../sprites/Player'
 export default class GameState extends Phaser.State {
   init () {
     this.rope = null
-    this.WAVE_LENGTH = 2.5
+    this.WAVE_LENGTH = 3
     this.count = 0
-    this.numWaves = 400 // Screen is only 800px wide, 6*160 = 960 pixels of coverage.
+    this.numWaves = 300 // Screen is only 800px wide, 6*160 = 960 pixels of coverage.
     this.waveTotalLength = this.WAVE_LENGTH * this.numWaves
     this.waves = null
   }
@@ -26,6 +26,8 @@ export default class GameState extends Phaser.State {
       let y = 0
       let wave = this.game.add.sprite(x, y, 'tempWave', this.game.rnd.between(0, 1))
       wave.anchor.set(0.5, 0.5)
+      this.physics.enable(wave, Phaser.Physics.ARCADE)
+      wave.body.setSize(10, 40, 0, 0)
       this.waves.add(wave)
       wave.collideWorldBounds = true
       wave.body.immovable = true
@@ -136,19 +138,19 @@ export default class GameState extends Phaser.State {
   animateWaves () {
     this.count += 0.2
     var i = 0
-    // var amp = 10
+    var amp = 10
 
     this.waves.forEach(function (currentWave) {
-      /* amp += this.game.rnd.between(-2, 2)
+      amp += this.game.rnd.between(-2, 2)
       var x = i * 0.1 + this.count
       var y = Math.sin(x) * amp
-      currentWave.y = y */
+      currentWave.y = y
 
-      var a = 1.0
+      /* var a = 1.0
       var b = 1.0
       var c = 0
       var y = a * Math.sin(b * i) * (-1) ^ c
-      currentWave.y = y
+      currentWave.y = y */
 
       if (this.debug) {
         this.game.debug.text('Wave[' + i + ']: (' + currentWave.x + ',' + currentWave.y + ')', 10, 11 * i + 20)
