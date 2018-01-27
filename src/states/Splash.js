@@ -5,15 +5,41 @@ export default class extends Phaser.State {
   init () {}
 
   preload () {
-    this.loaderBg = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBg')
-    this.loaderBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBar')
-    let text = this.add.text(this.world.centerX, this.world.centerY, 'Press the spacebar to continue', {
-      font: '16px Arial',
+    const titleBg = this.game.add.image(0, 0, 'titleBg')
+    titleBg.width = this.game.width
+    titleBg.height = this.game.height
+
+    const effect = this.game.make.bitmapData()
+    effect.load('title')
+
+    const image = this.game.add.image(this.game.world.centerX, this.game.world.centerY - 300, effect)
+    image.anchor.set(0.5)
+    image.smoothed = false
+
+    const mask = new Phaser.Rectangle()
+    mask.setTo(0, 0, this.game.cache.getImage('title').width / 2, this.game.cache.getImage('title').height)
+
+    //  Tween the rasters
+    this.game.add.tween(mask).to(
+      {y: -(mask.height)},
+      3000,
+      Phaser.Easing.Sinusoidal.InOut,
+      true,
+      0,
+      100,
+      true
+    )
+
+    //  Tween the image
+    this.game.add.tween(image.scale).to({ x: 4, y: 4 }, 3000, Phaser.Easing.Quartic.InOut, true, 0, 100, true)
+
+    // Text
+    let text = this.add.text(this.world.centerX, this.world.centerY + 300, 'Press the spacebar to continue', {
+      font: '75px Arial',
       fill: '#dddddd',
       align: 'center'
     })
-    centerGameObjects([this.loaderBg, this.loaderBar, text])
-    this.load.setPreloadSprite(this.loaderBar)
+    centerGameObjects([text])
   }
 
   create () {
