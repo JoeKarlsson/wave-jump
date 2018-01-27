@@ -1,5 +1,5 @@
 export default {
-  gameWidth: 1000,
-  gameHeight: 400,
+  gameWidth: window.innerWidth * window.devicePixelRatio,
+  gameHeight: window.innherHeight * window.devicePixelRatio,
   localStorageName: 'wave-jump'
 }
