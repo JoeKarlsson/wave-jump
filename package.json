@@ -1,39 +1,40 @@
 {
-  "name": "ggj-phaser-webpack-starter-kit",
-  "version": "1.0.0",
-  "description": "",
-  "author": "Joe Karlsson <joekarlsson1@gmail.com>",
-  "main": "index.js",
-  "scripts": {
-    "dev": "webpack",
-    "deploy": "webpack --config webpack.production.config.js",
-    "test": "standard",
+	"name": "wave-jump",
+	"version": "1.0.0",
+	"description": "Ride the wave. Beat your friends to the finish",
+	"author": "Joe Karlsson <joekarlsson1@gmail.com>",
+	"main": "index.js",
+	"scripts": {
+		"start": "webpack",
+		"dev": "webpack",
+		"deploy": "webpack --config webpack.production.config.js",
+		"test": "standard",
 		"lint": "eslint src",
 		"healthcheck": "npm run lint",
-    "precommit": "npm run lint",
-    "prepush": "npm prune && npm run healthcheck",
-    "postmerge": "npm install"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "babel-core": "^6.21.0",
-    "babel-loader": "^6.2.10",
-    "babel-polyfill": "^6.20.0",
-    "babel-preset-es2015": "^6.18.0",
-    "browser-sync": "^2.18.6",
-    "browser-sync-webpack-plugin": "^1.1.3",
-    "eslint": "^4.16.0",
-    "eslint-config-standard": "^6.2.1",
-    "eslint-plugin-promise": "^3.4.0",
-    "eslint-plugin-standard": "^2.0.1",
-    "expose-loader": "^0.7.1",
-    "husky": "^0.14.3",
-    "prettier": "^1.10.2",
-    "remark": "^9.0.0",
-    "webpack": "^1.14.0"
-  },
-  "dependencies": {
-    "phaser-ce": "2.10.0",
-    "webfontloader": "^1.6.27"
-  }
+		"precommit": "npm run lint",
+		"prepush": "npm prune && npm run healthcheck",
+		"postmerge": "npm install"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"babel-core": "6.21.0",
+		"babel-loader": "6.2.10",
+		"babel-polyfill": "6.20.0",
+		"babel-preset-es2015": "6.18.0",
+		"browser-sync": "2.18.6",
+		"browser-sync-webpack-plugin": "1.1.3",
+		"eslint": "4.16.0",
+		"eslint-config-standard": "6.2.1",
+		"eslint-plugin-promise": "3.4.0",
+		"eslint-plugin-standard": "2.0.1",
+		"expose-loader": "0.7.1",
+		"husky": "0.14.3",
+		"prettier": "1.10.2",
+		"remark": "9.0.0",
+		"webpack": "1.14.0"
+	},
+	"dependencies": {
+		"phaser-ce": "2.10.0",
+		"webfontloader": "1.6.27"
+	}
 }

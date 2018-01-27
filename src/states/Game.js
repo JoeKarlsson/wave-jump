@@ -6,7 +6,28 @@ export default class GameState extends Phaser.State {
   init () {}
   preload () {}
 
-  create () {
+  initSnake () {
+    let count = 0
+    let length = 918 / 20
+    let points = []
+    let rope
+
+    for (var i = 0; i < 20; i++) {
+      points.push(new Phaser.Point(i * length, 0))
+    }
+    rope = this.game.add.rope(32, this.game.world.centerY, 'snake', null, points)
+    rope.scale.set(0.8)
+
+    rope.updateAnimation = function () {
+      count += 0.1
+
+      for (var i = 0; i < this.points.length; i++) {
+        this.points[i].y = Math.sin(i * 0.5 + count) * 20
+      }
+    }
+  }
+
+  initBanner () {
     const bannerText = 'DevLeague Phaser + Webpack Starter Kit'
     let banner = this.add.text(this.world.centerX, this.game.height - 80, bannerText)
     banner.font = 'Bangers'
@@ -15,6 +36,11 @@ export default class GameState extends Phaser.State {
     banner.fill = '#77BFA3'
     banner.smoothed = false
     banner.anchor.setTo(0.5)
+  }
+
+  create () {
+    this.initBanner()
+    this.initSnake()
 
     this.devLeagueLogo = new DevLeagueLogo({
       game: this.game,
