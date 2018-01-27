@@ -1,5 +1,5 @@
 export default {
-  gameWidth: 760,
+  gameWidth: 1000,
   gameHeight: 400,
   localStorageName: 'ggj-phaser-webpack-start-kit'
 }

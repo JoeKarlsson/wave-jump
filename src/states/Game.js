@@ -76,6 +76,10 @@ export default class GameState extends Phaser.State {
   }
 
   create () {
+    const floor = this.game.add.image(0, 0, 'background')
+    floor.width = this.game.width
+    floor.height = this.game.height
+
     this.initBanner()
     this.initPlayers()
     this.initWaves()
