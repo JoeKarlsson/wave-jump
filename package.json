@@ -13,8 +13,7 @@
 		"healthcheck": "npm run lint",
 		"precommit": "npm run lint",
 		"prepush": "npm prune && npm run healthcheck",
-		"postmerge": "npm install",
-    "preinstall": "npm install"
+		"postmerge": "npm install"
 	},
 	"license": "MIT",
 	"devDependencies": {
