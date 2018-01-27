@@ -5,9 +5,9 @@ import Player from '../sprites/Player'
 export default class GameState extends Phaser.State {
   init () {
     this.rope = null
-    this.WAVE_LENGTH = 50
+    this.WAVE_LENGTH = 2.5
     this.count = 0
-    this.numWaves = 20 // Screen is only 800px wide, 6*160 = 960 pixels of coverage.
+    this.numWaves = 400 // Screen is only 800px wide, 6*160 = 960 pixels of coverage.
     this.waveTotalLength = this.WAVE_LENGTH * this.numWaves
     this.waves = null
   }
@@ -19,14 +19,17 @@ export default class GameState extends Phaser.State {
     this.waves.y = this.game.world.height - 50
     this.waves.enableBody = true
     this.waves.physicsBodyType = Phaser.Physics.ARCADE
+    this.waves.collideWorldBounds = true
 
     for (let i = 0; i < this.numWaves; i++) {
       let x = i * this.WAVE_LENGTH
       let y = 0
-      let wave = this.game.add.sprite(x, y, 'player', this.game.rnd.between(0, 1))
+      let wave = this.game.add.sprite(x, y, 'tempWave', this.game.rnd.between(0, 1))
       wave.anchor.set(0.5, 0.5)
       this.waves.add(wave)
+      wave.collideWorldBounds = true
       wave.body.immovable = true
+      wave.body.allowGravity = false
     }
   }
 
@@ -63,14 +66,14 @@ export default class GameState extends Phaser.State {
     this.player = new Player({
       game: this.game,
       x: this.world.left,
-      y: this.world.bottom,
+      y: this.world.bottom - 100,
       asset: 'player'
     })
 
     this.player2 = new Player({
       game: this.game,
       x: this.world.right,
-      y: this.world.bottom,
+      y: this.world.bottom - 100,
       asset: 'player'
     })
 
@@ -137,12 +140,19 @@ export default class GameState extends Phaser.State {
   animateWaves () {
     this.count += 0.2
     var i = 0
+    var amp = 10
 
     this.waves.forEach(function (currentWave) {
-      var amp = 10
-      var x = i * 0.9 + this.count
+      amp += this.game.rnd.between(-2, 2)
+      var x = i * 0.1 + this.count
       var y = Math.sin(x) * amp
       currentWave.y = y
+
+      /* var a = 50.0
+      var b = 10.0
+      var c = 0
+      var y = a * Math.sin(b*i+this.count)*(-1)^c
+      currentWave.y = y */
 
       if (this.debug) {
         this.game.debug.text('Wave[' + i + ']: (' + currentWave.x + ',' + currentWave.y + ')', 10, 11 * i + 20)
@@ -158,7 +168,7 @@ export default class GameState extends Phaser.State {
 
   update () {
     this.game.physics.arcade.collide(this.player, this.waves, this.collisionHandler, null, this)
-    this.game.physics.arcade.collide(this.player2, this.waves, this.collisionHAndler, null, this)
+    this.game.physics.arcade.collide(this.player2, this.waves, this.collisionHandler, null, this)
     this.game.physics.arcade.collide(this.waves)
     this.animateWaves()
   }
