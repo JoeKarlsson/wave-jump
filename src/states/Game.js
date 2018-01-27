@@ -17,7 +17,7 @@ export default class GameState extends Phaser.State {
   initWaves () {
     this.waves = this.game.add.group()
     this.waves.x = -this.WAVE_LENGTH * 2
-    this.waves.y = this.game.world.height * (3 / 4)
+    this.waves.y = this.game.world.height * (2 / 3)
     this.waves.enableBody = true
     this.waves.physicsBodyType = Phaser.Physics.ARCADE
     this.waves.collideWorldBounds = true
@@ -28,7 +28,7 @@ export default class GameState extends Phaser.State {
       let wave = this.game.add.sprite(x, y, 'tempWave', this.game.rnd.between(0, 1))
       wave.anchor.set(0.5, 0.5)
       this.physics.enable(wave, Phaser.Physics.ARCADE)
-      wave.body.setSize(10, 40, 0, 0)
+      wave.body.setSize(30, 60, 0, 0)
       this.waves.add(wave)
       wave.collideWorldBounds = true
       wave.body.immovable = true
@@ -158,10 +158,10 @@ export default class GameState extends Phaser.State {
   animateWaves () {
     this.count += 0.2
     var i = 0
-    var amp = 10
+    var amp = 100
 
     this.waves.forEach(function (currentWave) {
-      amp += this.game.rnd.between(-2, 2)
+      amp += this.game.rnd.between(-0.5, 0.5)
       var x = i * 0.1 + this.count
       var y = Math.sin(x) * amp
       currentWave.y = y
