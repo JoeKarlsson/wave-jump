@@ -13,7 +13,7 @@ export default class extends Phaser.State {
     //
     // load your assets
     //
-    this.load.image('devLeagueLogo', 'assets/images/devleague.png')
+    this.load.image('snake', 'assets/images/snake.png')
     this.load.image('player', 'assets/images/Player.png')
   }
 

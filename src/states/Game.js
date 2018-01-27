@@ -1,15 +1,37 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
-import DevLeagueLogo from '../sprites/DevLeagueLogo'
 import Player from '../sprites/Player'
 
 export default class GameState extends Phaser.State {
-  init () {}
-  preload () {
+  init () {
+    this.rope = null
+    this.WAVE_LENGTH = 50
+    this.count = 0
+    this.numWaves = 20 // Screen is only 800px wide, 6*160 = 960 pixels of coverage.
+    this.waveTotalLength = this.WAVE_LENGTH * this.numWaves
+    this.waves = null
+  }
+  preload () {}
+
+  initWaves () {
+    this.waves = this.game.add.group()
+    this.waves.x = -this.WAVE_LENGTH * 2
+    this.waves.y = this.game.world.height - 50
+    this.waves.enableBody = true
+    this.waves.physicsBodyType = Phaser.Physics.ARCADE
+
+    for (let i = 0; i < this.numWaves; i++) {
+      let x = i * this.WAVE_LENGTH
+      let y = 0
+      let wave = this.game.add.sprite(x, y, 'player', this.game.rnd.between(0, 1))
+      wave.anchor.set(0.5, 0.5)
+      this.waves.add(wave)
+      wave.body.immovable = true
+    }
   }
 
-  create () {
-    const bannerText = 'DevLeague Phaser + Webpack Starter Kit'
+  initBanner () {
+    const bannerText = 'SynthWave'
     let banner = this.add.text(this.world.centerX, this.game.height - 80, bannerText)
     banner.font = 'Bangers'
     banner.padding.set(10, 16)
@@ -17,13 +39,23 @@ export default class GameState extends Phaser.State {
     banner.fill = '#77BFA3'
     banner.smoothed = false
     banner.anchor.setTo(0.5)
+  }
 
-    this.devLeagueLogo = new DevLeagueLogo({
-      game: this.game,
-      x: this.world.centerX,
-      y: this.world.centerY,
-      asset: 'devLeagueLogo'
-    })
+  initGravity () {
+    this.game.physics.startSystem(Phaser.Physics.ARCADE)
+
+    //  Set the world (global) gravity
+    this.game.physics.arcade.gravity.y = 150
+    // Enable physics on those sprites
+    this.game.physics.enable([this.player], Phaser.Physics.ARCADE)
+    // this.player.body.bounce.set(1, 1);
+    this.player.body.collideWorldBounds = true
+    this.player.body.bounce.y = 0.8
+  }
+
+  create () {
+    this.initBanner()
+    this.initWaves()
 
     this.player = new Player({
       game: this.game,
@@ -39,7 +71,9 @@ export default class GameState extends Phaser.State {
       asset: 'player'
     })
 
-    this.game.add.existing(this.devLeagueLogo)
+    // create gravity (player objecto only currently)
+    this.initGravity()
+
     this.game.add.existing(this.player)
     this.game.add.existing(this.player2)
 
@@ -56,14 +90,11 @@ export default class GameState extends Phaser.State {
 
     this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
     this.dKey = this.game.input.keyboard.addKey(Phaser.Keyboard.D)
-
-    // create gravity (player objecto only currently)
-    this.initGravity()
   }
 
   render () {
     if (__DEV__) {
-      this.game.debug.spriteInfo(this.devLeagueLogo, 32, 32)
+      this.game.debug.spriteInfo(this.player, 32, 32)
     }
 
     this.player.body.velocity.x = 0
@@ -94,11 +125,38 @@ export default class GameState extends Phaser.State {
     } else if (this.rightKey.isDown) {
       this.player2.body.velocity.x = 500
     }
+
+    this.waves.forEach(function (wave) {
+      this.game.debug.body(wave)
+    }, this)
   }
 
-  initGravity () {
-    this.game.physics.startSystem(Phaser.Physics.ARCADE)
+  animateWaves () {
+    this.count += 0.2
+    var i = 0
 
+    this.waves.forEach(function (currentWave) {
+      var amp = 10
+      var x = i * 0.9 + this.count
+      var y = Math.sin(x) * amp
+      currentWave.y = y
+
+      if (this.debug) {
+        this.game.debug.text('Wave[' + i + ']: (' + currentWave.x + ',' + currentWave.y + ')', 10, 11 * i + 20)
+      }
+      i++
+    }, this)
+  }
+
+  collisionHandler (obj1, obj2) {
+    //  The two sprites are colliding
+    this.game.stage.backgroundColor = '#992d2d'
+  }
+
+  update () {
+    this.game.physics.arcade.collide(this.player, this.waves, this.collisionHandler, null, this)
+    this.game.physics.arcade.collide(this.waves)
+    this.animateWaves()
     //  Set the world (global) gravity
     this.game.physics.arcade.gravity.y = 1000
 
