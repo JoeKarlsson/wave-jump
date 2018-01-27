@@ -45,30 +45,21 @@ export default class GameState extends Phaser.State {
     this.raceGate.body.immovable = true
   }
 
-  initBanner () {
-    const bannerText = 'SynthWave'
-    let banner = this.add.text(this.world.centerX, this.game.height - 80, bannerText)
-    banner.font = 'Bangers'
-    banner.padding.set(10, 16)
-    banner.fontSize = 40
-    banner.fill = '#77BFA3'
-    banner.smoothed = false
-    banner.anchor.setTo(0.5)
-  }
-
   initGravity () {
+    const GRAVITY_FACTOR = 1200
+    const PLAYER_BOUNCE_FACTOR = 1
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
 
     //  Set the world (global) gravity
-    this.game.physics.arcade.gravity.y = 1000
+    this.game.physics.arcade.gravity.y = GRAVITY_FACTOR
     // Enable physics on those sprites
     this.game.physics.enable([this.player, this.player2], Phaser.Physics.ARCADE)
     // this.player.body.bounce.set(1, 1);
     this.player.body.collideWorldBounds = true
-    this.player.body.bounce.y = 0.2
+    this.player.body.bounce.y = PLAYER_BOUNCE_FACTOR
 
     this.player2.body.collideWorldBounds = true
-    this.player2.body.bounce.y = 0.2
+    this.player2.body.bounce.y = PLAYER_BOUNCE_FACTOR
   }
 
   initPlayers () {
@@ -94,7 +85,6 @@ export default class GameState extends Phaser.State {
     floor.width = this.game.width
     floor.height = this.game.height
 
-    this.initBanner()
     this.initPlayers()
     this.initWaves()
     this.initRaceGate()
@@ -129,7 +119,7 @@ export default class GameState extends Phaser.State {
     this.player2.body.velocity.x = 0
 
     // PLAYER1 KEYBOARD MAPPING
-    if (this.wKey.isDown && (this.player.body.touching.down || this.player.body.onFloor())) {
+    if (this.wKey.isDown) {
       this.player.body.velocity.y = -500
     }
 
@@ -140,7 +130,7 @@ export default class GameState extends Phaser.State {
     }
 
     // PLAYER2 KEYBOARD MAPPING
-    if (this.upKey.isDown && (this.player2.body.touching.down || this.player2.body.onFloor())) {
+    if (this.upKey.isDown) {
       this.player2.body.velocity.y = -500
     }
 
