@@ -12,4 +12,4 @@ https://wave-jump.herokuapp.com/
 [Lisa Mabley](https://www.lisamabley.codes/)
 [Daniel Olson](https://github.com/Danielwbolson)
 
-Original music by [Andrew Hill](https://www.origin414.com/andrew-hill)
+Original music and sounds by [Andrew Hill](https://www.origin414.com/andrew-hill)
