@@ -5,14 +5,16 @@ export default class extends Phaser.State {
   init () {}
 
   preload () {
-    this.player2Wins = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'player2Wins')
+    const player2Wins = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'player2Wins')
+    player2Wins.width = this.game.width
+    player2Wins.height = this.game.height
 
     let text = this.add.text(this.world.centerX, this.world.centerY, 'Press the spacebar to continue', {
       font: '16px Arial',
       fill: '#dddddd',
       align: 'center'
     })
-    centerGameObjects([this.player2Wins, text])
+    centerGameObjects([player2Wins, text])
   }
 
   create () {

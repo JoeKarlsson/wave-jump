@@ -179,8 +179,6 @@ export default class GameState extends Phaser.State {
   }
 
   endGameCollisionHandler (obj1, obj2) {
-    obj1.name = 'Player1'
-
     if (obj1.name === this.player.name) {
       this.state.start('Player1Win')
     } else {
