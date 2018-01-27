@@ -22,9 +22,12 @@ export default class extends Phaser.State {
       align: 'center'
     })
     this.game.text.anchor.setTo(0.5, 0.5)
+
     //
     // load your assets
     //
+    this.load.image('titleBg', 'assets/images/titleBg.png')
+    this.load.image('title', 'assets/images/title.png')
     this.load.image('snake', 'assets/images/snake.png')
     this.load.image('player', 'assets/images/Player.png')
     this.load.image('player1Wins', 'assets/images/player 1 wins.png')
