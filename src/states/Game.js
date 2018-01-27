@@ -13,29 +13,6 @@ export default class GameState extends Phaser.State {
   }
   preload () {}
 
-  // initSnake () {
-  //   let count = 0
-  //   let length = 918 / 20
-  //   let points = []
-  //
-  //   for (var i = 0; i < 20; i++) {
-  //     const point = new Phaser.Point(i * length, 0);
-  //     points.push(point)
-  //   }
-  //   this.rope = this.game.add.rope(32, this.game.world.centerY, 'snake', null, points)
-  //
-  //   this.rope.updateAnimation = function () {
-  //     count += 0.1
-  //
-  //     for (var i = 0; i < this.points.length; i++) {
-  //       this.points[i].y = Math.sin(i * 0.5 + count) * 20
-  //     }
-  //   }
-  //   this.rope.scale.set(0.8)
-  //   this.rope.enableBody = true;
-  //   this.rope.physicsBodyType = Phaser.Physics.ARCADE;
-  // }
-
   initWaves () {
     this.waves = this.game.add.group()
     this.waves.x = -this.WAVE_LENGTH * 2
@@ -82,20 +59,37 @@ export default class GameState extends Phaser.State {
 
     this.player = new Player({
       game: this.game,
-      x: this.world.centerX,
-      y: this.world.centerY - 95,
+      x: this.world.left,
+      y: this.world.bottom,
       asset: 'player'
     })
 
+    this.player2 = new Player({
+      game: this.game,
+      x: this.world.right,
+      y: this.world.bottom,
+      asset: 'player'
+    })
+
+    // create gravity (player objecto only currently)
     this.initGravity()
 
     this.game.add.existing(this.player)
+    this.game.add.existing(this.player2)
 
     //  In this example we'll create 4 specific keys (up, down, left, right) and monitor them in our update function
     this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.UP)
+    this.spaceBar = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+    this.wKey = this.game.input.keyboard.addKey(Phaser.Keyboard.W)
+
     this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN)
+    this.sKey = this.game.input.keyboard.addKey(Phaser.Keyboard.S)
+
     this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
+    this.aKey = this.game.input.keyboard.addKey(Phaser.Keyboard.A)
+
     this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
+    this.dKey = this.game.input.keyboard.addKey(Phaser.Keyboard.D)
   }
 
   render () {
@@ -103,16 +97,33 @@ export default class GameState extends Phaser.State {
       this.game.debug.spriteInfo(this.player, 32, 32)
     }
 
-    if (this.upKey.isDown) {
-      this.player.y--
+    this.player.body.velocity.x = 0
+    this.player2.body.velocity.x = 0
+
+    // PLAYER1 KEYBOARD MAPPING
+    if (this.wKey.isDown && this.player.body.onFloor()) {
+      this.player.body.velocity.y = -500
+    } else if (this.sKey.isDown) {
+      this.player.body.velocity.y = 1000
+    }
+
+    if (this.aKey.isDown) {
+      this.player.body.velocity.x = -500
+    } else if (this.dKey.isDown) {
+      this.player.body.velocity.x = 500
+    }
+
+    // PLAYER2 KEYBOARD MAPPING
+    if (this.upKey.isDown && this.player2.body.onFloor()) {
+      this.player2.body.velocity.y = -500
     } else if (this.downKey.isDown) {
-      this.player.y++
+      this.player2.body.velocity.y = 1000
     }
 
     if (this.leftKey.isDown) {
-      this.player.x--
+      this.player2.body.velocity.x = -500
     } else if (this.rightKey.isDown) {
-      this.player.x++
+      this.player2.body.velocity.x = 500
     }
 
     this.waves.forEach(function (wave) {
@@ -146,5 +157,16 @@ export default class GameState extends Phaser.State {
     this.game.physics.arcade.collide(this.player, this.waves, this.collisionHandler, null, this)
     this.game.physics.arcade.collide(this.waves)
     this.animateWaves()
+    //  Set the world (global) gravity
+    this.game.physics.arcade.gravity.y = 1000
+
+    // Enable physics on those sprites
+    this.game.physics.enable([this.player, this.player2], Phaser.Physics.ARCADE)
+
+    this.player.body.collideWorldBounds = true
+    this.player.body.bounce.y = 0.1
+
+    this.player2.body.collideWorldBounds = true
+    this.player.body.bounce.y = 0.1
   }
 }
