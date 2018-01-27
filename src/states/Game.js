@@ -48,15 +48,15 @@ export default class GameState extends Phaser.State {
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
 
     //  Set the world (global) gravity
-    this.game.physics.arcade.gravity.y = 1000
+    this.game.physics.arcade.gravity.y = 500
     // Enable physics on those sprites
     this.game.physics.enable([this.player, this.player2], Phaser.Physics.ARCADE)
     // this.player.body.bounce.set(1, 1);
     this.player.body.collideWorldBounds = true
-    this.player.body.bounce.y = 0.2
+    this.player.body.bounce.y = 0.05
 
     this.player2.body.collideWorldBounds = true
-    this.player2.body.bounce.y = 0.2
+    this.player2.body.bounce.y = 0.05
   }
 
   create () {
@@ -107,29 +107,25 @@ export default class GameState extends Phaser.State {
     this.player2.body.velocity.x = 0
 
     // PLAYER1 KEYBOARD MAPPING
-    if (this.wKey.isDown && this.player.body.onFloor()) {
-      this.player.body.velocity.y = -500
-    } else if (this.sKey.isDown) {
-      this.player.body.velocity.y = 1000
+    if (this.wKey.isDown && this.player.body.touching.down) {
+      this.player.body.velocity.y = -300
     }
 
     if (this.aKey.isDown) {
-      this.player.body.velocity.x = -500
+      this.player.body.velocity.x = -200
     } else if (this.dKey.isDown) {
-      this.player.body.velocity.x = 500
+      this.player.body.velocity.x = 200
     }
 
     // PLAYER2 KEYBOARD MAPPING
     if (this.upKey.isDown && this.player2.body.onFloor()) {
-      this.player2.body.velocity.y = -500
-    } else if (this.downKey.isDown) {
-      this.player2.body.velocity.y = 1000
+      this.player2.body.velocity.y = -300
     }
 
     if (this.leftKey.isDown) {
-      this.player2.body.velocity.x = -500
+      this.player2.body.velocity.x = -200
     } else if (this.rightKey.isDown) {
-      this.player2.body.velocity.x = 500
+      this.player2.body.velocity.x = 200
     }
 
     this.waves.forEach(function (wave) {
@@ -140,19 +136,19 @@ export default class GameState extends Phaser.State {
   animateWaves () {
     this.count += 0.2
     var i = 0
-    var amp = 10
+    // var amp = 10
 
     this.waves.forEach(function (currentWave) {
-      amp += this.game.rnd.between(-2, 2)
+      /* amp += this.game.rnd.between(-2, 2)
       var x = i * 0.1 + this.count
       var y = Math.sin(x) * amp
-      currentWave.y = y
-
-      /* var a = 50.0
-      var b = 10.0
-      var c = 0
-      var y = a * Math.sin(b*i+this.count)*(-1)^c
       currentWave.y = y */
+
+      var a = 1.0
+      var b = 1.0
+      var c = 0
+      var y = a * Math.sin(b * i) * (-1) ^ c
+      currentWave.y = y
 
       if (this.debug) {
         this.game.debug.text('Wave[' + i + ']: (' + currentWave.x + ',' + currentWave.y + ')', 10, 11 * i + 20)
