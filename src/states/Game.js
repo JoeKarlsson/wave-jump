@@ -40,6 +40,8 @@ export default class GameState extends Phaser.State {
     this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN)
     this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
     this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
+
+    // create gravity (player objecto only currently)
     this.initGravity()
   }
 
@@ -48,33 +50,37 @@ export default class GameState extends Phaser.State {
       this.game.debug.spriteInfo(this.devLeagueLogo, 32, 32)
     }
 
-    if (this.upKey.isDown) {
+    this.player.body.velocity.x = 0
+
+    if (this.upKey.isDown && this.player.body.onFloor()) {
       // this.devLeagueLogo.y--
-      this.player.y--
+      this.player.body.velocity.y = -100
     } else if (this.downKey.isDown) {
       // this.devLeagueLogo.y++
-      this.player.y++
+      this.player.body.velocity.y = 100
     }
 
     if (this.leftKey.isDown) {
       // this.devLeagueLogo.x--
-      this.player.x--
+      this.player.body.velocity.x = -100
     } else if (this.rightKey.isDown) {
       // this.devLeagueLogo.x++
-      this.player.x++
+      this.player.body.velocity.x = 100
     }
+
+    // if(this.rightKey.)
   }
 
   initGravity () {
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
 
     //  Set the world (global) gravity
-    this.game.physics.arcade.gravity.y = 100
+    this.game.physics.arcade.gravity.y = 200
 
     // Enable physics on those sprites
     this.game.physics.enable([this.player], Phaser.Physics.ARCADE)
 
     this.player.body.collideWorldBounds = true
-    this.player.body.bounce.y = 0.8
+    this.player.body.bounce.y = 0.1
   }
 }
