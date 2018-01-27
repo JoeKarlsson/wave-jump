@@ -5,7 +5,8 @@ import Player from '../sprites/Player'
 
 export default class GameState extends Phaser.State {
   init () {}
-  preload () {}
+  preload () {
+  }
 
   create () {
     const bannerText = 'DevLeague Phaser + Webpack Starter Kit'
@@ -39,6 +40,7 @@ export default class GameState extends Phaser.State {
     this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN)
     this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
     this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
+    this.initGravity()
   }
 
   render () {
@@ -61,5 +63,18 @@ export default class GameState extends Phaser.State {
       // this.devLeagueLogo.x++
       this.player.x++
     }
+  }
+
+  initGravity () {
+    this.game.physics.startSystem(Phaser.Physics.ARCADE)
+
+    //  Set the world (global) gravity
+    this.game.physics.arcade.gravity.y = 100
+
+    // Enable physics on those sprites
+    this.game.physics.enable([this.player], Phaser.Physics.ARCADE)
+
+    this.player.body.collideWorldBounds = true
+    this.player.body.bounce.y = 0.8
   }
 }
