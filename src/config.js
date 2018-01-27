@@ -1,5 +1,5 @@
 export default {
-  gameWidth: 760,
-  gameHeight: 400,
+  gameWidth: window.innerWidth * window.devicePixelRatio,
+  gameHeight: window.innherHeight * window.devicePixelRatio,
   localStorageName: 'ggj-phaser-webpack-start-kit'
 }
