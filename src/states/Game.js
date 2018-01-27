@@ -58,17 +58,20 @@ export default class GameState extends Phaser.State {
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
 
     //  Set the world (global) gravity
-    this.game.physics.arcade.gravity.y = 500
+    this.game.physics.arcade.gravity.y = 1000
     // Enable physics on those sprites
     this.game.physics.enable([this.player, this.player2], Phaser.Physics.ARCADE)
     // this.player.body.bounce.set(1, 1);
     this.player.body.collideWorldBounds = true
-    this.player.body.bounce.y = 0.05
+    this.player.body.bounce.y = 0.2
 
     this.player2.body.collideWorldBounds = true
-    this.player2.body.bounce.y = 0.05
+    this.player2.body.bounce.y = 0.2
   }
 
+  initPlayers () {
+  }
+    
   create () {
     this.player = new Player({
       game: this.game,
@@ -85,6 +88,16 @@ export default class GameState extends Phaser.State {
       asset: 'player',
       name: 'Player2'
     })
+  }
+
+  create () {
+    const floor = this.game.add.image(0, 0, 'background')
+    floor.width = this.game.width
+    floor.height = this.game.height
+
+    this.initBanner()
+    this.initPlayers()
+    this.initWaves()
 
     this.initGravity()
     this.initBanner()
@@ -123,9 +136,9 @@ export default class GameState extends Phaser.State {
     }
 
     if (this.aKey.isDown) {
-      this.player.body.velocity.x = -200
+      this.player.body.velocity.x = -500
     } else if (this.dKey.isDown) {
-      this.player.body.velocity.x = 200
+      this.player.body.velocity.x = 500
     }
 
     // PLAYER2 KEYBOARD MAPPING
@@ -134,9 +147,9 @@ export default class GameState extends Phaser.State {
     }
 
     if (this.leftKey.isDown) {
-      this.player2.body.velocity.x = -200
+      this.player2.body.velocity.x = -500
     } else if (this.rightKey.isDown) {
-      this.player2.body.velocity.x = 200
+      this.player2.body.velocity.x = 500
     }
 
     this.waves.forEach(function (wave) {
@@ -155,11 +168,11 @@ export default class GameState extends Phaser.State {
       var y = Math.sin(x) * amp
       currentWave.y = y
 
-      /* var a = 1.0
-      var b = 1.0
-      var c = 0
-      var y = a * Math.sin(b * i) * (-1) ^ c
-      currentWave.y = y */
+      // var a = 50.0
+      // var b = 10.0
+      // var c = 0
+      // var y = a * Math.sin(b*i+this.count)*(-1)^c
+      // currentWave.y = y
 
       if (this.debug) {
         this.game.debug.text('Wave[' + i + ']: (' + currentWave.x + ',' + currentWave.y + ')', 10, 11 * i + 20)
