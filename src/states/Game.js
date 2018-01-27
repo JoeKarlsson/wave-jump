@@ -66,9 +66,11 @@ export default class GameState extends Phaser.State {
     // this.player.body.bounce.set(1, 1);
     this.player.body.collideWorldBounds = true
     this.player.body.bounce.y = 0.2
+    this.player.body.checkCollision.up = false
 
     this.player2.body.collideWorldBounds = true
     this.player2.body.bounce.y = 0.2
+    this.player2.body.checkCollision.up = false
   }
 
   initPlayers () {
@@ -130,7 +132,7 @@ export default class GameState extends Phaser.State {
 
     // PLAYER1 KEYBOARD MAPPING
     if (this.wKey.isDown && (this.player.body.touching.down || this.player.body.onFloor())) {
-      this.player.body.velocity.y = -500
+      this.player.body.velocity.y = -1000
     }
 
     if (this.aKey.isDown) {
@@ -141,7 +143,7 @@ export default class GameState extends Phaser.State {
 
     // PLAYER2 KEYBOARD MAPPING
     if (this.upKey.isDown && (this.player2.body.touching.down || this.player2.body.onFloor())) {
-      this.player2.body.velocity.y = -500
+      this.player2.body.velocity.y = -1000
     }
 
     if (this.leftKey.isDown) {
