@@ -22,9 +22,12 @@ export default class extends Phaser.State {
       align: 'center'
     })
     this.game.text.anchor.setTo(0.5, 0.5)
+
     //
     // load your assets
     //
+    this.load.image('titleBg', 'assets/images/titleBg.png')
+    this.load.image('title', 'assets/images/title.png')
     this.load.image('snake', 'assets/images/snake.png')
     this.load.image('player', 'assets/images/Player.png')
     this.load.image('player1Wins', 'assets/images/player 1 wins.png')
@@ -33,7 +36,7 @@ export default class extends Phaser.State {
     this.load.image('loaderBar', './assets/images/loader-bar.png')
     this.load.image('background', './assets/images/alt-game-background.png')
     this.load.image('tempWave', './assets/images/waveTemp.png')
-    this.load.image('raceGate', './assets/images/1 cropped.png')
+    this.load.image('raceGate', './assets/images/raceGate.png')
     this.game.load.audio('Ferrari', 'assets/audio/Ferrari.wav')
   }
 
