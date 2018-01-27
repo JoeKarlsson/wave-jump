@@ -59,10 +59,7 @@ export default class GameState extends Phaser.State {
     this.player2.body.bounce.y = 0.2
   }
 
-  create () {
-    this.initBanner()
-    this.initWaves()
-
+  initPlayers () {
     this.player = new Player({
       game: this.game,
       x: this.world.left,
@@ -76,6 +73,12 @@ export default class GameState extends Phaser.State {
       y: this.world.bottom - 100,
       asset: 'player'
     })
+  }
+
+  create () {
+    this.initBanner()
+    this.initPlayers()
+    this.initWaves()
 
     // create gravity (player objecto only currently)
     this.initGravity()
@@ -147,12 +150,6 @@ export default class GameState extends Phaser.State {
       var x = i * 0.1 + this.count
       var y = Math.sin(x) * amp
       currentWave.y = y
-
-      /* var a = 50.0
-      var b = 10.0
-      var c = 0
-      var y = a * Math.sin(b*i+this.count)*(-1)^c
-      currentWave.y = y */
 
       if (this.debug) {
         this.game.debug.text('Wave[' + i + ']: (' + currentWave.x + ',' + currentWave.y + ')', 10, 11 * i + 20)
