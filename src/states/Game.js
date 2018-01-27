@@ -161,7 +161,7 @@ export default class GameState extends Phaser.State {
     var amp = 100
 
     this.waves.forEach(function (currentWave) {
-      amp += this.game.rnd.between(-.5, .5)
+      amp += this.game.rnd.between(-0.5, 0.5)
       var x = i * 0.1 + this.count
       var y = Math.sin(x) * amp
       currentWave.y = y
