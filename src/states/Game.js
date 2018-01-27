@@ -45,12 +45,15 @@ export default class GameState extends Phaser.State {
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
 
     //  Set the world (global) gravity
-    this.game.physics.arcade.gravity.y = 150
+    this.game.physics.arcade.gravity.y = 1000
     // Enable physics on those sprites
-    this.game.physics.enable([this.player], Phaser.Physics.ARCADE)
+    this.game.physics.enable([this.player, this.player2], Phaser.Physics.ARCADE)
     // this.player.body.bounce.set(1, 1);
     this.player.body.collideWorldBounds = true
-    this.player.body.bounce.y = 0.8
+    this.player.body.bounce.y = 0.2
+
+    this.player2.body.collideWorldBounds = true
+    this.player2.body.bounce.y = 0.2
   }
 
   create () {
@@ -155,18 +158,8 @@ export default class GameState extends Phaser.State {
 
   update () {
     this.game.physics.arcade.collide(this.player, this.waves, this.collisionHandler, null, this)
+    this.game.physics.arcade.collide(this.player2, this.waves, this.collisionHAndler, null, this)
     this.game.physics.arcade.collide(this.waves)
     this.animateWaves()
-    //  Set the world (global) gravity
-    this.game.physics.arcade.gravity.y = 1000
-
-    // Enable physics on those sprites
-    this.game.physics.enable([this.player, this.player2], Phaser.Physics.ARCADE)
-
-    this.player.body.collideWorldBounds = true
-    this.player.body.bounce.y = 0.1
-
-    this.player2.body.collideWorldBounds = true
-    this.player.body.bounce.y = 0.1
   }
 }
