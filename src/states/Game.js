@@ -70,21 +70,18 @@ export default class GameState extends Phaser.State {
   }
 
   initPlayers () {
-  }
-    
-  create () {
     this.player = new Player({
       game: this.game,
-      x: this.world.left,
-      y: this.world.bottom - 100,
+      x: this.world.left + 50,
+      y: (3 / 4) * this.world.centerY - 100,
       asset: 'player',
       name: 'Player1'
     })
 
     this.player2 = new Player({
       game: this.game,
-      x: this.world.right,
-      y: this.world.bottom - 100,
+      x: this.world.right - 50,
+      y: (3 / 4) * this.world.centerY - 100,
       asset: 'player',
       name: 'Player2'
     })
@@ -132,7 +129,7 @@ export default class GameState extends Phaser.State {
 
     // PLAYER1 KEYBOARD MAPPING
     if (this.wKey.isDown && (this.player.body.touching.down || this.player.body.onFloor())) {
-      this.player.body.velocity.y = -300
+      this.player.body.velocity.y = -500
     }
 
     if (this.aKey.isDown) {
@@ -143,7 +140,7 @@ export default class GameState extends Phaser.State {
 
     // PLAYER2 KEYBOARD MAPPING
     if (this.upKey.isDown && (this.player2.body.touching.down || this.player2.body.onFloor())) {
-      this.player2.body.velocity.y = -300
+      this.player2.body.velocity.y = -500
     }
 
     if (this.leftKey.isDown) {
