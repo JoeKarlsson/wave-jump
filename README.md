@@ -67,3 +67,5 @@ https://github.com/belohlavek/phaser-es6-boilerplate
 https://github.com/cstuncsik/phaser-es6-demo
 
 https://github.com/lean/phaser-es6-webpack
+
+Daniel Olson
