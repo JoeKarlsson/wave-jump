@@ -5,18 +5,19 @@ import Player from '../sprites/Player'
 export default class GameState extends Phaser.State {
   init () {
     this.rope = null
-    this.WAVE_LENGTH = 2.5
+    this.WAVE_LENGTH = 5
     this.count = 0
-    this.numWaves = 400 // Screen is only 800px wide, 6*160 = 960 pixels of coverage.
+    this.numWaves = (window.innerWidth * window.devicePixelRatio / this.WAVE_LENGTH)
     this.waveTotalLength = this.WAVE_LENGTH * this.numWaves
     this.waves = null
+    this.game.scaleRatio = 0.1
   }
   preload () {}
 
   initWaves () {
     this.waves = this.game.add.group()
     this.waves.x = -this.WAVE_LENGTH * 2
-    this.waves.y = this.game.world.height - 50
+    this.waves.y = this.game.world.height * (3 / 4)
     this.waves.enableBody = true
     this.waves.physicsBodyType = Phaser.Physics.ARCADE
     this.waves.collideWorldBounds = true
@@ -31,6 +32,15 @@ export default class GameState extends Phaser.State {
       wave.body.immovable = true
       wave.body.allowGravity = false
     }
+  }
+
+  initRaceGate () {
+    this.raceGate = this.add.sprite(this.game.width / 2, this.game.height / 2, 'raceGate')
+    this.raceGate.scale.setTo(this.game.scaleRatio, this.game.scaleRatio)
+    this.raceGate.anchor.set(0.5, 0.5)
+    this.game.physics.enable(this.raceGate, Phaser.Physics.ARCADE)
+    this.raceGate.body.allowGravity = false
+    this.raceGate.body.immovable = true
   }
 
   initBanner () {
@@ -60,25 +70,26 @@ export default class GameState extends Phaser.State {
   }
 
   create () {
-    this.initBanner()
-    this.initWaves()
-
     this.player = new Player({
       game: this.game,
       x: this.world.left,
       y: this.world.bottom - 100,
-      asset: 'player'
+      asset: 'player',
+      name: 'Player1'
     })
 
     this.player2 = new Player({
       game: this.game,
       x: this.world.right,
       y: this.world.bottom - 100,
-      asset: 'player'
+      asset: 'player',
+      name: 'Player2'
     })
 
-    // create gravity (player objecto only currently)
     this.initGravity()
+    this.initBanner()
+    this.initWaves()
+    this.initRaceGate()
 
     this.game.add.existing(this.player)
     this.game.add.existing(this.player2)
@@ -107,7 +118,7 @@ export default class GameState extends Phaser.State {
     this.player2.body.velocity.x = 0
 
     // PLAYER1 KEYBOARD MAPPING
-    if (this.wKey.isDown && this.player.body.touching.down) {
+    if (this.wKey.isDown && (this.player.body.touching.down || this.player.body.onFloor())) {
       this.player.body.velocity.y = -300
     }
 
@@ -118,7 +129,7 @@ export default class GameState extends Phaser.State {
     }
 
     // PLAYER2 KEYBOARD MAPPING
-    if (this.upKey.isDown && this.player2.body.onFloor()) {
+    if (this.upKey.isDown && (this.player2.body.touching.down || this.player2.body.onFloor())) {
       this.player2.body.velocity.y = -300
     }
 
@@ -136,19 +147,19 @@ export default class GameState extends Phaser.State {
   animateWaves () {
     this.count += 0.2
     var i = 0
-    // var amp = 10
+    var amp = 10
 
     this.waves.forEach(function (currentWave) {
-      /* amp += this.game.rnd.between(-2, 2)
+      amp += this.game.rnd.between(-2, 2)
       var x = i * 0.1 + this.count
       var y = Math.sin(x) * amp
-      currentWave.y = y */
+      currentWave.y = y
 
-      var a = 1.0
+      /* var a = 1.0
       var b = 1.0
       var c = 0
       var y = a * Math.sin(b * i) * (-1) ^ c
-      currentWave.y = y
+      currentWave.y = y */
 
       if (this.debug) {
         this.game.debug.text('Wave[' + i + ']: (' + currentWave.x + ',' + currentWave.y + ')', 10, 11 * i + 20)
@@ -162,9 +173,22 @@ export default class GameState extends Phaser.State {
     this.game.stage.backgroundColor = '#992d2d'
   }
 
+  endGameCollisionHandler (obj1, obj2) {
+    obj1.name = 'Player1'
+    // first player to reach the gate wins
+    if (obj1.name === this.player.name) {
+      this.state.start('Player1Win')
+    }
+    if (obj1.name === this.player2.name) {
+      this.state.start('Player2Win')
+    }
+  }
+
   update () {
     this.game.physics.arcade.collide(this.player, this.waves, this.collisionHandler, null, this)
     this.game.physics.arcade.collide(this.player2, this.waves, this.collisionHandler, null, this)
+    this.game.physics.arcade.collide(this.player, this.raceGate, this.endGameCollisionHandler, null, this)
+    this.game.physics.arcade.collide(this.player2, this.raceGate, this.endGameCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.waves)
     this.animateWaves()
   }
