@@ -17,8 +17,8 @@ export default class extends Phaser.State {
     })
 
     this.game.text = this.add.text(this.world.centerX, this.world.centerY, 'loading fonts', {
-      font: '16px Arial',
-      fill: '#dddddd',
+      font: '50px Arial',
+      fill: '#000000',
       align: 'center'
     })
     this.game.text.anchor.setTo(0.5, 0.5)
