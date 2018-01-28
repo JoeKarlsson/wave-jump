@@ -115,11 +115,6 @@ This game was created for the [Global Game Jam 2018](http://globalgamejam.org/) 
   <tbody>
 </table>
 
-* [Joe Karlsson](https://github.com/JoeKarlsson)
-* [Cal Carlson](https://github.com/calcarlson)
-* [Lisa Mabley](https://www.lisamabley.codes/)
-* [Daniel Olson](https://github.com/Danielwbolson)
-
 Original music and sounds by [Andrew Hill](https://www.origin414.com/andrew-hill)
 
 ### License
