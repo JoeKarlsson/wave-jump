@@ -1,5 +1,5 @@
 # Wave Jump
-#### 2D wave-jumping game for two playersgit 
+#### 2D wave-jumping game for two players 
 Created for the [Global Game Jam](http://globalgamejam.org/) over 48 hours on January 26 - 28, 2018.
 
 ## Play Wave Jump
