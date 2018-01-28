@@ -147,17 +147,12 @@ export default class GameState extends Phaser.State {
       asset: 'player',
       name: 'Player2Clone2'
     })
-
-    /* this.player1Clone1.visible = false
-    this.player1Clone2.visible = false
-    this.player2Clone1.visible = false
-    this.player2Clone2.visible = false */
   }
 
   create () {
-    const floor = this.game.add.image(0, 0, 'background')
-    floor.width = this.game.width
-    floor.height = this.game.height
+    const background = this.game.add.image(0, 0, 'background')
+    background.width = this.game.width
+    background.height = this.game.height
 
     this.initBanner()
     this.initPlayers()
