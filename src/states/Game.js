@@ -342,39 +342,42 @@ export default class GameState extends Phaser.State {
 
   // Players do not move. I think that they are locked onto the waves that
   // they collided with
-  collisionHandler (obj1, obj2) {
-    var angle = 0
-    //  The two sprites are colliding
-    if (obj1.name === 'Player1' || obj1.name === 'Player2') {
-      if (obj1.name === 'Player') {
-        angle = Math.atan2(this.player1Clone2.y - this.player1Clone1.y, this.player1Clone2.x - this.player1Clone1.x)
-      } else {
-        angle = Math.atan2(this.player2Clone2.y - this.player2Clone1.y, this.player2Clone2.x - this.player2Clone1.x)
-      }
-      obj1.body.velocity.x = 5 * this.defaultVelocity * Math.sin(angle)
+  collisionHandler (obj1, obj2) {}
 
-      obj1.body.velocity.y = this.defaultVelocity * Math.cos(angle)
-
-      obj1.body.gravity.x += 100 * Math.sin(angle)
-    }
-  }
-
-  dummyCollisionHandler (obj1, obj2) {
-  }
+  dummyCollisionHandler (obj1, obj2) {}
 
   endGameCollisionHandler (obj1, obj2) {
-    if (obj1.name === this.player1.name) {
-      this.game.scoreP1 = this.game.scoreP1 + 1
-      this.state.start('Player1Win')
-    } else {
-      this.game.scoreP2 = this.game.scoreP2 + 1
-      this.state.start('Player2Win')
+    switch (obj1.name) {
+      case (this.player1.name):
+        this.game.scoreP1 = this.game.scoreP1 + 1
+        this.state.start('Player1Win')
+        break
+      case (this.player1Clone1.name):
+        this.game.scoreP1 = this.game.scoreP1 + 1
+        this.state.start('Player1Win')
+        break
+      case (this.player1Clone2.name):
+        this.game.scoreP1 = this.game.scoreP1 + 1
+        this.state.start('Player1Win')
+        break
+      case (this.player2.name):
+        this.game.scoreP2 = this.game.scoreP2 + 1
+        this.state.start('Player2Win')
+        break
+      case (this.player2Clone1.name):
+        this.game.scoreP2 = this.game.scoreP2 + 1
+        this.state.start('Player2Win')
+        break
+      case (this.player2Clone2.name):
+        this.game.scoreP2 = this.game.scoreP2 + 1
+        this.state.start('Player2Win')
+        break
     }
   }
 
   update () {
-    this.game.physics.arcade.collide(this.player1, this.waves, this.collisionHandler, null, this)
-    this.game.physics.arcade.collide(this.player2, this.waves, this.collisionHandler, null, this)
+    this.game.physics.arcade.collide(this.player1, this.waves, this.dummyCollisionHandler, null, this)
+    this.game.physics.arcade.collide(this.player2, this.waves, this.dummyCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player1, this.raceGate, this.endGameCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player2, this.raceGate, this.endGameCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player1Clone1, this.raceGate, this.endGameCollisionHandler, null, this)
