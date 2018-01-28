@@ -55,15 +55,40 @@ export default class GameState extends Phaser.State {
     this.raceGate.body.immovable = true
   }
 
-  initBanner () {
-    const bannerText = 'score'
-    let banner = this.add.text(this.world.width / 2, this.game.height - 150, bannerText)
-    banner.font = 'Bangers'
-    banner.padding.set(10, 16)
-    banner.fontSize = 40
-    banner.fill = '#77BFA3'
-    banner.smoothed = false
-    banner.anchor.setTo(0.5)
+  initScoreBoard () {
+    const scoreTextP1 = 'Player 1'
+    let scoreTitleP1 = this.add.text(((this.world.width / 2) - 200), this.game.height - 150, scoreTextP1)
+    scoreTitleP1.font = 'Bangers'
+    scoreTitleP1.padding.set(10, 16)
+    scoreTitleP1.fontSize = 40
+    scoreTitleP1.fill = '#77BFA3'
+    scoreTitleP1.smoothed = false
+    scoreTitleP1.anchor.setTo(0.5)
+
+    let scoreP1 = this.add.text(((this.world.width / 2) - 200), this.game.height - 100, this.game.scoreP1)
+    scoreP1.font = 'Bangers'
+    scoreP1.padding.set(10, 16)
+    scoreP1.fontSize = 40
+    scoreP1.fill = '#77BFA3'
+    scoreP1.smoothed = false
+    scoreP1.anchor.setTo(0.5)
+
+    const scoreTextP2 = 'Player 2'
+    let scoreTitleP2 = this.add.text(((this.world.width / 2) + 200), this.game.height - 150, scoreTextP2)
+    scoreTitleP2.font = 'Bangers'
+    scoreTitleP2.padding.set(10, 16)
+    scoreTitleP2.fontSize = 40
+    scoreTitleP2.fill = '#77BFA3'
+    scoreTitleP2.smoothed = false
+    scoreTitleP2.anchor.setTo(0.5)
+
+    let scoreP2 = this.add.text(((this.world.width / 2) + 200), this.game.height - 100, this.game.scoreP2)
+    scoreP2.font = 'Bangers'
+    scoreP2.padding.set(10, 16)
+    scoreP2.fontSize = 40
+    scoreP2.fill = '#77BFA3'
+    scoreP2.smoothed = false
+    scoreP2.anchor.setTo(0.5)
   }
 
   initGravity () {
@@ -147,19 +172,14 @@ export default class GameState extends Phaser.State {
       asset: 'player',
       name: 'Player2Clone2'
     })
-
-    /* this.player1Clone1.visible = false
-    this.player1Clone2.visible = false
-    this.player2Clone1.visible = false
-    this.player2Clone2.visible = false */
   }
 
   create () {
-    const floor = this.game.add.image(0, 0, 'background')
-    floor.width = this.game.width
-    floor.height = this.game.height
+    const background = this.game.add.image(0, 0, 'background')
+    background.width = this.game.width
+    background.height = this.game.height
 
-    this.initBanner()
+    this.initScoreBoard()
     this.initPlayers()
     this.initWaves()
     this.initRaceGate()
@@ -286,8 +306,10 @@ export default class GameState extends Phaser.State {
 
   endGameCollisionHandler (obj1, obj2) {
     if (obj1.name === this.player1.name) {
+      this.game.scoreP1 = this.game.scoreP1 + 1
       this.state.start('Player1Win')
     } else {
+      this.game.scoreP2 = this.game.scoreP2 + 1
       this.state.start('Player2Win')
     }
   }
