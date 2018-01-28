@@ -227,10 +227,10 @@ export default class GameState extends Phaser.State {
       this.player1Clone1.body.velocity.y = -this.defaultVelocity * 4
       this.player1Clone2.body.velocity.y = -this.defaultVelocity * 4
     }
-    if(this.sKey.isDown)
-    {this.player1.body.velocity.y = this.defaultGravity 
-      this.player1Clone1.body.velocity.y = this.defaultGravity 
-      this.player1Clone2.body.velocity.y = this.defaultGravity
+    if (this.sKey.isDown) {
+      this.player1.body.velocity.y = 100
+      this.player1Clone1.body.velocity.y = 100
+      this.player1Clone2.body.velocity.y = 100
     }
 
     if (this.aKey.isDown) {
@@ -251,9 +251,9 @@ export default class GameState extends Phaser.State {
     } else if (this.rightKey.isDown) {
       this.player2.body.velocity.x += 1600
     }
-    if(this.downKey.isDown)
-    {this.player2.body.velocity.y = this.defaultGravity 
-      this.player2Clone1.body.velocity.y = this.defaultGravity 
+    if (this.downKey.isDown) {
+      this.player2.body.velocity.y = this.defaultGravity
+      this.player2Clone1.body.velocity.y = this.defaultGravity
       this.player2Clone2.body.velocity.y = this.defaultGravity
     }
 
