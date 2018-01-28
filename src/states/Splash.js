@@ -12,7 +12,7 @@ export default class extends Phaser.State {
     const effect = this.game.make.bitmapData()
     effect.load('title')
 
-    const image = this.game.add.image(this.game.world.centerX, this.game.world.centerY - 300, effect)
+    const image = this.game.add.image(this.game.world.centerX, this.game.world.centerY - 50, effect)
     image.anchor.set(0.5)
     image.smoothed = false
 
