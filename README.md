@@ -5,9 +5,13 @@
 
 <h1 align="center">Wave Jump</h1>
 
-Wave Jump is a slick retro-futuristic obstacle dodging game that will make
+Wave Jump is a 80's arcade inspired multiplayer game where you've got to be lightening fast to beat your friend to the finish.
 
-You can play Wave Jump Here: [https://wave-jump.herokuapp.com/](https://wave-jump.herokuapp.com/)
+Ride a bolt of electricity in a slick retro-futuristic sunset world with your friend. Put your reflexes to the test as your race to catch the final cyber portal first.
+
+You've been warned. This game will make your brain melt.
+
+You can play Wave Jump for free today: [https://wave-jump.herokuapp.com/](https://wave-jump.herokuapp.com/)
 
 ## Setup
 To use this game you’ll need to install a few things before you have a working copy of the project.
@@ -63,12 +67,8 @@ This will optimize and minimize the compiled bundle and generate the index.html.
 
 ## Technologies Used:
 
+*  ES6 JavaScript
 *  [Phaser.io](https://phaser.io/)
-*  ESLINT with JavaScript Standard Style configuration
-*  Next generation of Javascript
-*  Webpack ready
-*  Multiple browser testing
-*  WebFont Loader
 
 ## Contributing
 
