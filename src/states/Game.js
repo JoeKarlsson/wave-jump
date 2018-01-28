@@ -13,7 +13,7 @@ export default class GameState extends Phaser.State {
     this.game.scaleRatio = 0.1
     this.goingUp = true
     this.startTime = this.game.time.time
-    this.defaultVelocity = 500
+    this.defaultVelocity = 200
     this.defaultGravity = 1000
   }
   preload () {}
@@ -21,7 +21,7 @@ export default class GameState extends Phaser.State {
   initWaves () {
     this.waves = this.game.add.group()
     this.waves.x = -this.WAVE_LENGTH * 2
-    this.waves.y = this.game.world.height * (6 / 7)
+    this.waves.y = this.game.world.height / 2 + this.game.rnd.between(-200, 200)
     this.waves.enableBody = true
     this.waves.physicsBodyType = Phaser.Physics.ARCADE
     this.waves.collideWorldBounds = true
@@ -38,6 +38,11 @@ export default class GameState extends Phaser.State {
       wave.body.immovable = true
       wave.body.allowGravity = false
     }
+  }
+
+  newWave () {
+    this.waves.destroy()
+    this.initWaves()
   }
 
   initRaceGate () {
@@ -183,6 +188,8 @@ export default class GameState extends Phaser.State {
 
     this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
     this.dKey = this.game.input.keyboard.addKey(Phaser.Keyboard.D)
+
+    this.game.time.events.repeat(Phaser.Timer.SECOND * 5, 10, this.newWave, this)
   }
 
   render () {
@@ -195,36 +202,28 @@ export default class GameState extends Phaser.State {
 
     // PLAYER1 KEYBOARD MAPPING
     if (this.wKey.isDown && (this.player1.body.touching.down || this.player1.body.onFloor())) {
-      this.player1.body.velocity.y = -this.defaultVelocity
-      this.player1Clone1.body.velocity.y = -this.defaultVelocity
-      this.player1Clone2.body.velocity.y = -this.defaultVelocity
+      this.player1.body.velocity.y = -this.defaultVelocity * 3
+      this.player1Clone1.body.velocity.y = -this.defaultVelocity * 3
+      this.player1Clone2.body.velocity.y = -this.defaultVelocity * 3
     }
 
     if (this.aKey.isDown) {
-      if (this.player1.body.gravity.x > 0) {
-        this.player1.body.gravity.x -= 10
-      }
+      this.player1.body.velocity.x -= this.defaultVelocity
     } else if (this.dKey.isDown) {
-      if (this.player1.body.gravity.x < 0) {
-        this.player1.body.gravity.x += 10
-      }
+      this.player1.body.velocity.x += 200
     }
 
     // PLAYER2 KEYBOARD MAPPING
     if (this.upKey.isDown && (this.player2.body.touching.down || this.player2.body.onFloor())) {
-      this.player2.body.velocity.y = -this.defaultVelocity
-      this.player2Clone1.body.velocity.y = -this.defaultVelocity
-      this.player2Clone2.body.velocity.y = -this.defaultVelocity
+      this.player2.body.velocity.y = -this.defaultVelocity * 1.5
+      this.player2Clone1.body.velocity.y = -this.defaultVelocity * 1.5
+      this.player2Clone2.body.velocity.y = -this.defaultVelocity * 1.5
     }
 
     if (this.leftKey.isDown) {
-      if (this.player2.body.gravity.x > 0) {
-        this.player2.body.gravity.x -= 10
-      }
+      this.player2.body.velocity.x -= this.defaultVelocity
     } else if (this.rightKey.isDown) {
-      if (this.player2.body.gravity.x < 0) {
-        this.player2.body.gravity.x += 10
-      }
+      this.player2.body.velocity.x += this.defaultVelocity
     }
 
     this.player1Clone1.x = this.player1.x - 5
@@ -234,14 +233,13 @@ export default class GameState extends Phaser.State {
   }
 
   animateWaves () {
-    this.count += Math.random(0, 1)
+    this.count += 1
     var i = 0
-    var amp = 200
-
+    var amp = this.game.rnd.between(100, 200)
     this.waves.forEach(function (currentWave) {
       if (this.goingUp) {
         var x = i * 0.1 + this.count
-        var y = Math.sin(0.1 * x) * amp
+        var y = Math.sin(0.2 * x) * amp
         currentWave.body.velocity.y = y * 2
 
         if (amp > 300) {
@@ -249,35 +247,36 @@ export default class GameState extends Phaser.State {
         }
       } else {
         x = i * 0.1 + this.count
-        y = Math.sin(0.1 * x) * amp
+        y = Math.sin(0.2 * x) * amp
         currentWave.body.velocity.y = y * 2
 
         if (amp < 10) {
           this.goingUp = true
         }
       }
-      // if (this.debug) {
-      // this.game.debug.text('Wave[' + i + ']: (' + currentWave.x + ',' + currentWave.y + ')', 10, 11 * i + 20)
-      // }
+      if (this.debug) {
+        this.game.debug.text('Wave[' + i + ']: (' + currentWave.x + ',' + currentWave.y + ')', 10, 11 * i + 20)
+      }
       i++
     }, this)
   }
 
+  // Players do not move. I think that they are locked onto the waves that
+  // they collided with
   collisionHandler (obj1, obj2) {
+    var angle = 0
     //  The two sprites are colliding
-    if (obj1.name === 'Player1') {
-      /* var sumX = this.player1Clone2.x - this.player1Clone1.x
+    if (obj1.name === 'Player1' || obj1.name === 'Player2') {
+      if (obj1.name === 'Player') {
+        angle = Math.atan2(this.player1Clone2.y - this.player1Clone1.y, this.player1Clone2.x - this.player1Clone1.x)
+      } else {
+        angle = Math.atan2(this.player2Clone2.y - this.player2Clone1.y, this.player2Clone2.x - this.player2Clone1.x)
+      }
+      obj1.body.velocity.x = 5 * this.defaultVelocity * Math.sin(angle)
 
-      var sumY = this.player1Clone2.y - this.player1Clone1.y
+      obj1.body.velocity.y = this.defaultVelocity * Math.cos(angle)
 
-      var slope = sumY / sumX */
-
-      var angle = Math.atan2(this.player1Clone2.y - this.player1Clone1.y, this.player1Clone2.x - this.player1Clone1.x)
-
-      this.player1.body.velocity.x += this.defaultVelocity * Math.cos(angle)
-      this.player1.body.velocity.y -= this.defaultVelocity * Math.sin(angle)
-
-      this.player1.body.gravity.x = this.defaultGravity * Math.cos(angle)
+      obj1.body.gravity.x += 100 * Math.sin(angle)
     }
   }
 
@@ -303,7 +302,8 @@ export default class GameState extends Phaser.State {
     this.game.physics.arcade.collide(this.player2Clone2, this.waves, this.dummyCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.waves)
 
-    this.player1.body.gravity.x * 0.9
+    this.player1.body.gravity.x *= 0.5
+    this.player2.body.gravity.x *= 0.5
     setInterval(this.animateWaves(), 33.333)
   }
 }
