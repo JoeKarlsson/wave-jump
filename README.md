@@ -93,21 +93,18 @@ This game was created for the [Global Game Jam 2018](http://globalgamejam.org/) 
         <br />
         <a href="https://github.com/JoeKarlsson">Joe Karlsson</a>
       </td>
-
       <td align="center">
         <img width="150 height="150"
         src="https://avatars.githubusercontent.com/calcarlson?v=3">
         <br />
         <a href="https://github.com/calcarlson">Cal Carlson</a>
       </td>
-
       <td align="center">
         <img width="150 height="150"
         src="https://avatars.githubusercontent.com/Danielwbolson?v=3">
         <br />
         <a href="https://github.com/Danielwbolson">Daniel Olson</a>
       </td>
-
       <td align="center">
         <img width="150 height="150"
         src="https://avatars.githubusercontent.com/lisamabley?v=3">
