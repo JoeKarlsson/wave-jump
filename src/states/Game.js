@@ -53,7 +53,7 @@ export default class GameState extends Phaser.State {
   }
 
   initRaceGate () {
-    this.raceGate = this.add.sprite(window.innerWidth * window.devicePixelRatio - this.game.rnd.between(200, 600), this.game.height - this.game.rnd.between(200, 600), 'raceGate')
+    this.raceGate = this.add.sprite(this.game.rnd.between(100, 1100), this.game.height - this.game.rnd.between(100, 800), 'raceGate')
     this.raceGate.scale.setTo(this.game.scaleRatio, this.game.scaleRatio)
     this.raceGate.y += this.raceGate.height
     this.raceGate.anchor.set(0.5, 0.5)
@@ -255,9 +255,9 @@ export default class GameState extends Phaser.State {
       this.pressed = true
     }
     if (this.sKey.isDown) {
-      this.player1.body.velocity.y = 100
-      this.player1Clone1.body.velocity.y = 100
-      this.player1Clone2.body.velocity.y = 100
+      this.player1.body.velocity.y = this.defaultGravity
+      this.player1Clone1.body.velocity.y = this.defaultGravity
+      this.player1Clone2.body.velocity.y = this.defaultGravity
     }
 
     if (this.aKey.isDown) {
@@ -364,8 +364,10 @@ export default class GameState extends Phaser.State {
 
   endGameCollisionHandler (obj1, obj2) {
     if (obj1.name === this.player1.name) {
+      this.game.scoreP1 = this.game.scoreP1 + 1
       this.state.start('Player1Win')
     } else {
+      this.game.scoreP2 = this.game.scoreP2 + 1
       this.state.start('Player2Win')
     }
   }

@@ -35,7 +35,7 @@ export default class extends Phaser.State {
 
     // Text
     let text = this.add.text(this.world.centerX, this.world.centerY + 300, 'Press the spacebar to continue', {
-      font: '50px Arial',
+      font: '40px Arial',
       fill: '#dddddd',
       align: 'center'
     })
