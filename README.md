@@ -1,16 +1,9 @@
 # Wave Jump
-#### A bootstrap project to create games with Phaser + ES6 + Webpack.
+#### 2D wave-jumping game for two players 
+Created for the [Global Game Jam](http://globalgamejam.org/) over 48 hours on January 26 - 28, 2018.
 
-[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
-
-
-## Features
-- ESLINT with JavaScript Standard Style configuration
-- Next generation of Javascript
-- Webpack ready
-- Multiple browser testing
-- WebFont Loader
-
+## Play Wave Jump
+https://wave-jump.herokuapp.com/
 
 # Setup
 To use this game you’ll need to install a few things before you have a working copy of the project.
@@ -56,13 +49,13 @@ Run:
 
 This will optimize and minimize the compiled bundle.
 
-## Credits
-Big thanks to this great repos:
+## Contributors
+[Cal Carlson](https://github.com/calcarlson)
 
-https://github.com/belohlavek/phaser-es6-boilerplate
+[Joe Karlsson](https://github.com/JoeKarlsson)
 
-https://github.com/cstuncsik/phaser-es6-demo
+[Lisa Mabley](https://www.lisamabley.codes/)
 
-https://github.com/lean/phaser-es6-webpack
+[Daniel Olson](https://github.com/Danielwbolson)
 
-Daniel Olson
+Original music and sounds by [Andrew Hill](https://www.origin414.com/andrew-hill)
