@@ -1,9 +1,9 @@
-/* globals __DEV__ */
 import Phaser from 'phaser'
 import Player from '../sprites/Player'
 
 export default class GameState extends Phaser.State {
   init () {
+    this.pressed
     this.rope = null
     this.WAVE_LENGTH = 2
     this.count = 0
@@ -16,7 +16,14 @@ export default class GameState extends Phaser.State {
     this.defaultVelocity = 450
     this.defaultGravity = 3500
   }
-  preload () {}
+
+  preload () {
+    this.bmd1 = this.game.add.bitmapData(5, 5)
+    this.bmd1.fill(255, 0, 0, 1)
+
+    this.bmd2 = this.game.add.bitmapData(5, 5)
+    this.bmd2.fill(0, 0, 255, 1)
+  }
 
   initWaves () {
     this.waves = this.game.add.group()
@@ -55,40 +62,15 @@ export default class GameState extends Phaser.State {
     this.raceGate.body.immovable = true
   }
 
-  initScoreBoard () {
-    const scoreTextP1 = 'Player 1'
-    let scoreTitleP1 = this.add.text(((this.world.width / 2) - 200), this.game.height - 150, scoreTextP1)
-    scoreTitleP1.font = 'Bangers'
-    scoreTitleP1.padding.set(10, 16)
-    scoreTitleP1.fontSize = 40
-    scoreTitleP1.fill = '#77BFA3'
-    scoreTitleP1.smoothed = false
-    scoreTitleP1.anchor.setTo(0.5)
-
-    let scoreP1 = this.add.text(((this.world.width / 2) - 200), this.game.height - 100, this.game.scoreP1)
-    scoreP1.font = 'Bangers'
-    scoreP1.padding.set(10, 16)
-    scoreP1.fontSize = 40
-    scoreP1.fill = '#77BFA3'
-    scoreP1.smoothed = false
-    scoreP1.anchor.setTo(0.5)
-
-    const scoreTextP2 = 'Player 2'
-    let scoreTitleP2 = this.add.text(((this.world.width / 2) + 200), this.game.height - 150, scoreTextP2)
-    scoreTitleP2.font = 'Bangers'
-    scoreTitleP2.padding.set(10, 16)
-    scoreTitleP2.fontSize = 40
-    scoreTitleP2.fill = '#77BFA3'
-    scoreTitleP2.smoothed = false
-    scoreTitleP2.anchor.setTo(0.5)
-
-    let scoreP2 = this.add.text(((this.world.width / 2) + 200), this.game.height - 100, this.game.scoreP2)
-    scoreP2.font = 'Bangers'
-    scoreP2.padding.set(10, 16)
-    scoreP2.fontSize = 40
-    scoreP2.fill = '#77BFA3'
-    scoreP2.smoothed = false
-    scoreP2.anchor.setTo(0.5)
+  initBanner () {
+    const bannerText = 'score'
+    let banner = this.add.text(this.world.width / 2, this.game.height - 150, bannerText)
+    banner.font = 'Bangers'
+    banner.padding.set(10, 16)
+    banner.fontSize = 40
+    banner.fill = '#77BFA3'
+    banner.smoothed = false
+    banner.anchor.setTo(0.5)
   }
 
   initGravity () {
@@ -172,6 +154,28 @@ export default class GameState extends Phaser.State {
       asset: 'player',
       name: 'Player2Clone2'
     })
+
+    this.emitter1 = this.game.add.emitter(this.player1.x, this.player1.y, 3000)
+    this.emitter1.gravity = 0
+    this.emitter1.frequency = 50
+    this.emitter1.maxParticleSpeed = 0
+    this.emitter1.minRotation = 0
+    this.emitter1.maxRotation = 0
+    this.emitter1.autoScale = false
+    this.emitter1.setAlpha(1, 0, 2500)
+    this.emitter1.makeParticles(this.bmd1)
+    this.emitter1.start(false, 3000, 0)
+
+    this.emitter2 = this.game.add.emitter(this.player2.x, this.player2.y, 3000)
+    this.emitter2.gravity = 0
+    this.emitter2.frequency = 50
+    this.emitter2.maxParticleSpeed = 0
+    this.emitter2.minRotation = 0
+    this.emitter2.maxRotation = 0
+    this.emitter2.autoScale = false
+    this.emitter2.setAlpha(1, 0, 2500)
+    this.emitter2.makeParticles(this.bmd2)
+    this.emitter2.start(false, 3000, 0)
   }
 
   create () {
@@ -179,7 +183,7 @@ export default class GameState extends Phaser.State {
     background.width = this.game.width
     background.height = this.game.height
 
-    this.initScoreBoard()
+    this.initBanner()
     this.initPlayers()
     this.initWaves()
     this.initRaceGate()
@@ -214,10 +218,6 @@ export default class GameState extends Phaser.State {
   }
 
   render () {
-    if (__DEV__) {
-      this.game.debug.spriteInfo(this.player1, 32, 32)
-    }
-
     this.player1.body.velocity.x = 0
     this.player2.body.velocity.x = 0
 
@@ -226,12 +226,19 @@ export default class GameState extends Phaser.State {
       this.player1.body.velocity.y = -this.defaultVelocity * 4
       this.player1Clone1.body.velocity.y = -this.defaultVelocity * 4
       this.player1Clone2.body.velocity.y = -this.defaultVelocity * 4
+      this.emitter1.on = true
+      this.pressed = true
     }
 
     if (this.aKey.isDown) {
       this.player1.body.velocity.x -= 1600
-    } else if (this.dKey.isDown) {
+      this.emitter1.on = true
+      this.pressed = true
+    }
+    if (this.dKey.isDown) {
       this.player1.body.velocity.x += 1600
+      this.emitter1.on = true
+      this.pressed = true
     }
 
     // PLAYER2 KEYBOARD MAPPING
@@ -239,18 +246,37 @@ export default class GameState extends Phaser.State {
       this.player2.body.velocity.y = -this.defaultVelocity * 4
       this.player2Clone1.body.velocity.y = -this.defaultVelocity * 4
       this.player2Clone2.body.velocity.y = -this.defaultVelocity * 4
+      this.emitter2.on = true
+      this.pressed = true
     }
 
     if (this.leftKey.isDown) {
       this.player2.body.velocity.x -= 1600
-    } else if (this.rightKey.isDown) {
+      this.emitter2.on = true
+      this.pressed = true
+    }
+
+    if (this.rightKey.isDown) {
       this.player2.body.velocity.x += 1600
+      this.emitter2.on = true
+      this.pressed = true
     }
 
     this.player1Clone1.x = this.player1.x - 5
     this.player1Clone2.x = this.player1.x + 5
     this.player2Clone1.x = this.player2.x - 5
     this.player2Clone2.x = this.player2.x + 5
+
+    this.emitter1.x = this.player1.x
+    this.emitter1.y = this.player1.y
+
+    this.emitter2.x = this.player2.x
+    this.emitter2.y = this.player2.y
+
+    if (!this.pressed) {
+      this.emitter1.on = false
+      this.emitter2.on = false
+    }
   }
 
   animateWaves () {
@@ -274,9 +300,6 @@ export default class GameState extends Phaser.State {
         if (amp < 10) {
           this.goingUp = true
         }
-      }
-      if (this.debug) {
-        this.game.debug.text('Wave[' + i + ']: (' + currentWave.x + ',' + currentWave.y + ')', 10, 11 * i + 20)
       }
       i++
     }, this)
@@ -306,10 +329,8 @@ export default class GameState extends Phaser.State {
 
   endGameCollisionHandler (obj1, obj2) {
     if (obj1.name === this.player1.name) {
-      this.game.scoreP1 = this.game.scoreP1 + 1
       this.state.start('Player1Win')
     } else {
-      this.game.scoreP2 = this.game.scoreP2 + 1
       this.state.start('Player2Win')
     }
   }
