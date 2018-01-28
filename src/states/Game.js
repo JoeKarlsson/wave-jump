@@ -13,15 +13,15 @@ export default class GameState extends Phaser.State {
     this.game.scaleRatio = 0.1
     this.goingUp = true
     this.startTime = this.game.time.time
-    this.defaultVelocity = 200
-    this.defaultGravity = 1000
+    this.defaultVelocity = 500
+    this.defaultGravity = 3000
   }
   preload () {}
 
   initWaves () {
     this.waves = this.game.add.group()
     this.waves.x = -this.WAVE_LENGTH * 2
-    this.waves.y = this.game.world.height / 2 + this.game.rnd.between(-200, 200)
+    this.waves.y = this.game.world.height / 2 // + this.game.rnd.between(-100, 100) randomizes the inital wave position
     this.waves.enableBody = true
     this.waves.physicsBodyType = Phaser.Physics.ARCADE
     this.waves.collideWorldBounds = true
@@ -32,7 +32,7 @@ export default class GameState extends Phaser.State {
       let wave = this.game.add.sprite(x, y, 'tempWave', this.game.rnd.between(0, 1))
       wave.anchor.set(0.5, 0.5)
       this.physics.enable(wave, Phaser.Physics.ARCADE)
-      wave.body.setSize(5, 5, 0, 0)
+      wave.body.setSize(7, 7, 0, 0)
       this.waves.add(wave)
       wave.collideWorldBounds = true
       wave.body.immovable = true
@@ -41,12 +41,12 @@ export default class GameState extends Phaser.State {
   }
 
   newWave () {
-    this.waves.destroy()
     this.initWaves()
+    this.waves.destroy()
   }
 
   initRaceGate () {
-    this.raceGate = this.add.sprite(this.game.width / 2, this.game.top, 'raceGate')
+    this.raceGate = this.add.sprite(this.game.rnd.between(100, 1100), this.game.height - this.game.rnd.between(100, 800), 'raceGate')
     this.raceGate.scale.setTo(this.game.scaleRatio, this.game.scaleRatio)
     this.raceGate.y += this.raceGate.height
     this.raceGate.anchor.set(0.5, 0.5)
@@ -56,8 +56,8 @@ export default class GameState extends Phaser.State {
   }
 
   initBanner () {
-    const bannerText = 'SynthWave'
-    let banner = this.add.text(this.world.centerX, this.game.height - 80, bannerText)
+    const bannerText = 'score'
+    let banner = this.add.text(this.world.width / 2, this.game.height - 150, bannerText)
     banner.font = 'Bangers'
     banner.padding.set(10, 16)
     banner.fontSize = 40
@@ -102,7 +102,7 @@ export default class GameState extends Phaser.State {
   initPlayers () {
     this.player1 = new Player({
       game: this.game,
-      x: this.world.centerX,
+      x: this.world.centerX - 500,
       y: (3 / 4) * this.world.centerY - 100,
       asset: 'player',
       name: 'Player1'
@@ -110,7 +110,7 @@ export default class GameState extends Phaser.State {
 
     this.player1Clone1 = new Player({
       game: this.game,
-      x: this.world.centerX - 5,
+      x: this.world.centerX - 505,
       y: (3 / 4) * this.world.centerY - 100,
       asset: 'player',
       name: 'Player1Clone1'
@@ -118,7 +118,7 @@ export default class GameState extends Phaser.State {
 
     this.player1Clone2 = new Player({
       game: this.game,
-      x: this.world.centerX + 5,
+      x: this.world.centerX - 510,
       y: (3 / 4) * this.world.centerY - 100,
       asset: 'player',
       name: 'Player1Clone2'
@@ -126,7 +126,7 @@ export default class GameState extends Phaser.State {
 
     this.player2 = new Player({
       game: this.game,
-      x: this.world.centerX,
+      x: this.world.centerX + 500,
       y: (3 / 4) * this.world.centerY - 100,
       asset: 'player',
       name: 'Player2'
@@ -134,7 +134,7 @@ export default class GameState extends Phaser.State {
 
     this.player2Clone1 = new Player({
       game: this.game,
-      x: this.world.centerX - 5,
+      x: this.world.centerX + 505,
       y: (3 / 4) * this.world.centerY - 100,
       asset: 'player',
       name: 'Player2Clone1'
@@ -142,7 +142,7 @@ export default class GameState extends Phaser.State {
 
     this.player2Clone2 = new Player({
       game: this.game,
-      x: this.world.centerX + 5,
+      x: this.world.centerX + 510,
       y: (3 / 4) * this.world.centerY - 100,
       asset: 'player',
       name: 'Player2Clone2'
@@ -150,7 +150,6 @@ export default class GameState extends Phaser.State {
 
     /* this.player1Clone1.visible = false
     this.player1Clone2.visible = false
-
     this.player2Clone1.visible = false
     this.player2Clone2.visible = false */
   }
@@ -163,7 +162,7 @@ export default class GameState extends Phaser.State {
     this.initBanner()
     this.initPlayers()
     this.initWaves()
-    // this.initRaceGate()
+    this.initRaceGate()
 
     // create gravity (player objecto only currently)
     this.initGravity()
@@ -189,7 +188,9 @@ export default class GameState extends Phaser.State {
     this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
     this.dKey = this.game.input.keyboard.addKey(Phaser.Keyboard.D)
 
-    this.game.time.events.repeat(Phaser.Timer.SECOND * 5, 10, this.newWave, this)
+    // adds randomized waves
+
+    // this.game.time.events.repeat(Phaser.Timer.SECOND * 5, 10, this.newWave, this)
   }
 
   render () {
@@ -202,28 +203,28 @@ export default class GameState extends Phaser.State {
 
     // PLAYER1 KEYBOARD MAPPING
     if (this.wKey.isDown && (this.player1.body.touching.down || this.player1.body.onFloor())) {
-      this.player1.body.velocity.y = -this.defaultVelocity * 3
-      this.player1Clone1.body.velocity.y = -this.defaultVelocity * 3
-      this.player1Clone2.body.velocity.y = -this.defaultVelocity * 3
+      this.player1.body.velocity.y = -this.defaultVelocity * 4
+      this.player1Clone1.body.velocity.y = -this.defaultVelocity * 4
+      this.player1Clone2.body.velocity.y = -this.defaultVelocity * 4
     }
 
     if (this.aKey.isDown) {
-      this.player1.body.velocity.x -= this.defaultVelocity
+      this.player1.body.velocity.x -= 2000
     } else if (this.dKey.isDown) {
-      this.player1.body.velocity.x += 200
+      this.player1.body.velocity.x += 2000
     }
 
     // PLAYER2 KEYBOARD MAPPING
     if (this.upKey.isDown && (this.player2.body.touching.down || this.player2.body.onFloor())) {
-      this.player2.body.velocity.y = -this.defaultVelocity * 1.5
-      this.player2Clone1.body.velocity.y = -this.defaultVelocity * 1.5
-      this.player2Clone2.body.velocity.y = -this.defaultVelocity * 1.5
+      this.player2.body.velocity.y = -this.defaultVelocity * 4
+      this.player2Clone1.body.velocity.y = -this.defaultVelocity * 4
+      this.player2Clone2.body.velocity.y = -this.defaultVelocity * 4
     }
 
     if (this.leftKey.isDown) {
-      this.player2.body.velocity.x -= this.defaultVelocity
+      this.player2.body.velocity.x -= 2000
     } else if (this.rightKey.isDown) {
-      this.player2.body.velocity.x += this.defaultVelocity
+      this.player2.body.velocity.x += 2000
     }
 
     this.player1Clone1.x = this.player1.x - 5
@@ -304,6 +305,6 @@ export default class GameState extends Phaser.State {
 
     this.player1.body.gravity.x *= 0.5
     this.player2.body.gravity.x *= 0.5
-    setInterval(this.animateWaves(), 33.333)
+    setInterval(this.animateWaves(), 60)
   }
 }

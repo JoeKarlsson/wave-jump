@@ -14,7 +14,7 @@ export default class extends Phaser.State {
 
     const image = this.game.add.image(this.game.world.centerX, this.game.world.centerY - 50, effect)
     image.anchor.set(0.5)
-    image.smoothed = false
+    image.smoothed = true
 
     const mask = new Phaser.Rectangle()
     mask.setTo(0, 0, this.game.cache.getImage('title').width / 2, this.game.cache.getImage('title').height)
