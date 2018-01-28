@@ -35,7 +35,7 @@ export default class extends Phaser.State {
     this.load.image('loaderBg', './assets/images/loader-bg.png')
     this.load.image('loaderBar', './assets/images/loader-bar.png')
     this.load.image('background', './assets/images/alt-game-background.png')
-    this.load.image('tempWave', './assets/images/waveTemp.png')
+    this.load.image('tempWave', './assets/images/wave prototype.png')
     this.load.image('raceGate', './assets/images/1 cropped.png')
     this.game.load.audio('Ferrari', 'assets/audio/Ferrari.wav')
   }
