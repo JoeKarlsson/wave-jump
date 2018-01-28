@@ -53,7 +53,7 @@ export default class GameState extends Phaser.State {
   }
 
   initRaceGate () {
-    this.raceGate = this.add.sprite(this.game.rnd.between(100, 1100), this.game.height - this.game.rnd.between(100, 800), 'raceGate')
+    this.raceGate = this.add.sprite(this.game.rnd.between(200, 600), this.game.height - this.game.rnd.between(200, 600), 'raceGate')
     this.raceGate.scale.setTo(this.game.scaleRatio, this.game.scaleRatio)
     this.raceGate.y += this.raceGate.height
     this.raceGate.anchor.set(0.5, 0.5)
