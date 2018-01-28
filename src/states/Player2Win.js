@@ -9,7 +9,7 @@ export default class extends Phaser.State {
     player2Wins.width = this.game.width
     player2Wins.height = this.game.height
 
-    let text = this.add.text(this.world.centerX, this.world.centerY, 'Press the spacebar to continue', {
+    let text = this.add.text(this.world.centerX, this.world.centerY + 350, 'Press the spacebar to continue', {
       font: '16px Arial',
       fill: '#dddddd',
       align: 'center'
