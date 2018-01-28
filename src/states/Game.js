@@ -53,7 +53,7 @@ export default class GameState extends Phaser.State {
   }
 
   initRaceGate () {
-    this.raceGate = this.add.sprite(window.innerWidth * window.devicePixelRatio - this.game.rnd.between(100, 800), this.game.height - this.game.rnd.between(100, 800), 'raceGate')
+    this.raceGate = this.add.sprite(window.innerWidth * window.devicePixelRatio - this.game.rnd.between(200, 600), this.game.height - this.game.rnd.between(200, 600), 'raceGate')
     this.raceGate.scale.setTo(this.game.scaleRatio, this.game.scaleRatio)
     this.raceGate.y += this.raceGate.height
     this.raceGate.anchor.set(0.5, 0.5)
@@ -62,15 +62,40 @@ export default class GameState extends Phaser.State {
     this.raceGate.body.immovable = true
   }
 
-  initBanner () {
-    const bannerText = 'score'
-    let banner = this.add.text(this.world.width / 2, this.game.height - 150, bannerText)
-    banner.font = 'Bangers'
-    banner.padding.set(10, 16)
-    banner.fontSize = 40
-    banner.fill = '#77BFA3'
-    banner.smoothed = false
-    banner.anchor.setTo(0.5)
+  initScoreBoard () {
+    const scoreTextP1 = 'Player 1'
+    let scoreTitleP1 = this.add.text((this.world.width / 12), this.game.height - 150, scoreTextP1)
+    scoreTitleP1.font = 'Bangers'
+    scoreTitleP1.padding.set(10, 16)
+    scoreTitleP1.fontSize = 40
+    scoreTitleP1.fill = '#FFFFFF'
+    scoreTitleP1.smoothed = false
+    scoreTitleP1.anchor.setTo(0.5)
+
+    let scoreP1 = this.add.text((this.world.width / 12), this.game.height - 100, this.game.scoreP1)
+    scoreP1.font = 'Bangers'
+    scoreP1.padding.set(10, 16)
+    scoreP1.fontSize = 120
+    scoreP1.fill = '#FFF500'
+    scoreP1.smoothed = false
+    scoreP1.anchor.setTo(0.5)
+
+    const scoreTextP2 = 'Player 2'
+    let scoreTitleP2 = this.add.text((this.world.width / 1.09), this.game.height - 150, scoreTextP2)
+    scoreTitleP2.font = 'Bangers'
+    scoreTitleP2.padding.set(10, 16)
+    scoreTitleP2.fontSize = 40
+    scoreTitleP2.fill = '#FFFFFF'
+    scoreTitleP2.smoothed = false
+    scoreTitleP2.anchor.setTo(0.5)
+
+    let scoreP2 = this.add.text((this.world.width / 1.09), this.game.height - 100, this.game.scoreP2)
+    scoreP2.font = 'Bangers'
+    scoreP2.padding.set(10, 16)
+    scoreP2.fontSize = 120
+    scoreP2.fill = '#FFF500'
+    scoreP2.smoothed = false
+    scoreP2.anchor.setTo(0.5)
   }
 
   initGravity () {
@@ -183,7 +208,7 @@ export default class GameState extends Phaser.State {
     background.width = this.game.width
     background.height = this.game.height
 
-    this.initBanner()
+    this.initScoreBoard()
     this.initPlayers()
     this.initWaves()
     this.initRaceGate()
@@ -229,6 +254,11 @@ export default class GameState extends Phaser.State {
       this.emitter1.on = true
       this.pressed = true
     }
+    if (this.sKey.isDown) {
+      this.player1.body.velocity.y = 100
+      this.player1Clone1.body.velocity.y = 100
+      this.player1Clone2.body.velocity.y = 100
+    }
 
     if (this.aKey.isDown) {
       this.player1.body.velocity.x -= 1600
@@ -261,6 +291,11 @@ export default class GameState extends Phaser.State {
       this.emitter2.on = true
       this.pressed = true
     }
+    if (this.downKey.isDown) {
+      this.player2.body.velocity.y = this.defaultGravity
+      this.player2Clone1.body.velocity.y = this.defaultGravity
+      this.player2Clone2.body.velocity.y = this.defaultGravity
+    }
 
     this.player1Clone1.x = this.player1.x - 5
     this.player1Clone2.x = this.player1.x + 5
@@ -287,7 +322,7 @@ export default class GameState extends Phaser.State {
       if (this.goingUp) {
         var x = i * 0.1 + this.count
         var y = Math.sin(0.3 * x) * amp
-        currentWave.body.velocity.y = y * 2
+        currentWave.body.velocity.y = y * 2.5
 
         if (amp > 300) {
           this.goingUp = false
@@ -342,6 +377,8 @@ export default class GameState extends Phaser.State {
     this.game.physics.arcade.collide(this.player2, this.raceGate, this.endGameCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player1Clone1, this.raceGate, this.endGameCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player2Clone1, this.raceGate, this.endGamecollisionHandler, null, this)
+    this.game.physics.arcade.collide(this.player1Clone2, this.raceGate, this.endGameCollisionHandler, null, this)
+    this.game.physics.arcade.collide(this.player2Clone2, this.raceGate, this.endGamecollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player1Clone1, this.waves, this.dummyCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player1Clone2, this.waves, this.dummyCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player2Clone1, this.waves, this.dummyCollisionHandler, null, this)
