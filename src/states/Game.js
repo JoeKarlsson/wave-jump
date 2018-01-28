@@ -53,7 +53,7 @@ export default class GameState extends Phaser.State {
   }
 
   initRaceGate () {
-    this.raceGate = this.add.sprite(this.game.rnd.between(100, 1100), this.game.height - this.game.rnd.between(100, 800), 'raceGate')
+    this.raceGate = this.add.sprite(this.game.rnd.between(this.world.width / 3, this.world.width / 1.5), this.game.height - this.game.rnd.between(this.game.height - 400, this.game.height - 100), 'raceGate')
     this.raceGate.scale.setTo(this.game.scaleRatio, this.game.scaleRatio)
     this.raceGate.y += this.raceGate.height
     this.raceGate.anchor.set(0.5, 0.5)
@@ -322,7 +322,7 @@ export default class GameState extends Phaser.State {
       if (this.goingUp) {
         var x = i * 0.1 + this.count
         var y = Math.sin(0.3 * x) * amp
-        currentWave.body.velocity.y = y * 2.5
+        currentWave.body.velocity.y = y * 2
 
         if (amp > 300) {
           this.goingUp = false
