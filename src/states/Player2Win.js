@@ -5,18 +5,42 @@ export default class extends Phaser.State {
   init () {}
 
   preload () {
-    const player2Wins = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'player2Wins')
-    player2Wins.width = this.game.width
-    player2Wins.height = this.game.height
+    const titleBg = this.game.add.image(0, 0, 'winback')
+    titleBg.width = this.game.width
+    titleBg.height = this.game.height
 
-    let text = this.add.text(this.world.centerX, this.world.centerY + 350, 'Press the spacebar to continue', {
-      font: '16px Arial',
+    const effect = this.game.make.bitmapData()
+    effect.load('player2')
+
+    const image = this.game.add.image(this.game.world.centerX, this.game.world.centerY - 50, effect)
+    image.anchor.set(0.5)
+    image.smoothed = true
+
+    const mask = new Phaser.Rectangle()
+    mask.setTo(0, 0, this.game.cache.getImage('player2').width / 2, this.game.cache.getImage('player2').height)
+
+    //  Tween the rasters
+    this.game.add.tween(mask).to(
+      {y: -(mask.height)},
+      2000,
+      Phaser.Easing.Sinusoidal.InOut,
+      true,
+      0,
+      100,
+      true
+    )
+
+    //  Tween the image
+    this.game.add.tween(image.scale).to({ x: 2, y: 2 }, 2000, Phaser.Easing.Quartic.InOut, true, 0, 100, true)
+
+    // Text
+    let text = this.add.text(this.world.centerX, this.world.centerY + 300, 'Press the spacebar to continue', {
+      font: '75px Arial',
       fill: '#dddddd',
       align: 'center'
     })
-    centerGameObjects([player2Wins, text])
+    centerGameObjects([text])
   }
-
   create () {
     this.spaceBar = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
   }
