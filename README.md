@@ -1,6 +1,11 @@
-# Wave Jump
-#### 2D wave-jumping game for two players
-Created for the [Global Game Jam](http://globalgamejam.org/) over 48 hours on January 26 - 28, 2018.
+<p align="center">
+	<img width=100% src="https://user-images.githubusercontent.com/4650739/35486114-e19631d0-042e-11e8-8f37-d4c2df60323c.png" />
+
+</p>
+
+<h1 align="center">Wave Jump</h1>
+
+Wave Jump is a slick retro-futuristic obstacle dodging game that will make
 
 You can play Wave Jump Here: [https://wave-jump.herokuapp.com/](https://wave-jump.herokuapp.com/)
 
@@ -78,9 +83,47 @@ This game was created for the [Global Game Jam 2018](http://globalgamejam.org/) 
 
 ![wave_jump_team_photo](https://user-images.githubusercontent.com/4650739/35485808-4e223b96-042a-11e8-9bad-c3516f8939c2.jpg)
 
+<table>
+  <tbody>
+    <tr>
+      <td align="center">
+        <img width="150 height="150"
+        src="https://avatars.githubusercontent.com/JoeKarlsson?v=3">
+        <br />
+        <a href="https://github.com/JoeKarlsson">Joe Karlsson</a>
+      </td>
+
+      <td align="center">
+        <img width="150 height="150"
+        src="https://avatars.githubusercontent.com/calcarlson?v=3">
+        <br />
+        <a href="https://github.com/calcarlson">Cal Carlson</a>
+      </td>
+
+      <td align="center">
+        <img width="150 height="150"
+        src="https://avatars.githubusercontent.com/Danielwbolson?v=3">
+        <br />
+        <a href="https://github.com/Danielwbolson">Daniel Olson</a>
+      </td>
+
+      <td align="center">
+        <img width="150 height="150"
+        src="https://avatars.githubusercontent.com/lisamabley?v=3">
+        <br />
+        <a href="https://github.com/lisamabley">Lisa Mabley</a>
+      </td>
+    <tr>
+  <tbody>
+</table>
+
 * [Joe Karlsson](https://github.com/JoeKarlsson)
 * [Cal Carlson](https://github.com/calcarlson)
 * [Lisa Mabley](https://www.lisamabley.codes/)
 * [Daniel Olson](https://github.com/Danielwbolson)
 
 Original music and sounds by [Andrew Hill](https://www.origin414.com/andrew-hill)
+
+### License
+
+#### [MIT](https://github.com/JoeKarlsson/wave-jump/blob/develop/LICENSE)
