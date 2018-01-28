@@ -62,12 +62,13 @@ npm run deploy
 This will optimize and minimize the compiled bundle and generate the index.html.
 
 ## Technologies Used:
-  -[Phaser.io](https://phaser.io/)
-  -ESLINT with JavaScript Standard Style configuration
-  -Next generation of Javascript
-  -Webpack ready
-  -Multiple browser testing
-  -WebFont Loader
+
+*  [Phaser.io](https://phaser.io/)
+*  ESLINT with JavaScript Standard Style configuration
+*  Next generation of Javascript
+*  Webpack ready
+*  Multiple browser testing
+*  WebFont Loader
 
 ## Contributing
 
