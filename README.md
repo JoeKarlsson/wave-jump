@@ -78,9 +78,9 @@ This game was created for the [Global Game Jam 2018](http://globalgamejam.org/) 
 
 ![wave_jump_team_photo](https://user-images.githubusercontent.com/4650739/35485808-4e223b96-042a-11e8-9bad-c3516f8939c2.jpg)
 
-*[Joe Karlsson](https://github.com/JoeKarlsson)
-*[Cal Carlson](https://github.com/calcarlson)
-*[Lisa Mabley](https://www.lisamabley.codes/)
-*[Daniel Olson](https://github.com/Danielwbolson)
+* [Joe Karlsson](https://github.com/JoeKarlsson)
+* [Cal Carlson](https://github.com/calcarlson)
+* [Lisa Mabley](https://www.lisamabley.codes/)
+* [Daniel Olson](https://github.com/Danielwbolson)
 
 Original music and sounds by [Andrew Hill](https://www.origin414.com/andrew-hill)
