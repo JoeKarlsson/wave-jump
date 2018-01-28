@@ -46,7 +46,7 @@ export default class GameState extends Phaser.State {
   }
 
   initRaceGate () {
-    this.raceGate = this.add.sprite(window.innerWidth * window.devicePixelRatio - this.game.rnd.between(100,800), this.game.height - this.game.rnd.between(100, 800), 'raceGate')
+    this.raceGate = this.add.sprite(window.innerWidth * window.devicePixelRatio - this.game.rnd.between(100, 800), this.game.height - this.game.rnd.between(100, 800), 'raceGate')
     this.raceGate.scale.setTo(this.game.scaleRatio, this.game.scaleRatio)
     this.raceGate.y += this.raceGate.height
     this.raceGate.anchor.set(0.5, 0.5)
@@ -191,7 +191,7 @@ export default class GameState extends Phaser.State {
     // adds randomized waves
 
     // this.game.time.events.repeat(Phaser.Timer.SECOND * 5, 10, this.newWave, this)
-}
+  }
 
   render () {
     if (__DEV__) {
@@ -307,6 +307,6 @@ export default class GameState extends Phaser.State {
 
     this.player1.body.gravity.x *= 0.5
     this.player2.body.gravity.x *= 0.5
-    setInterval(this.animateWaves(), 60) 
+    setInterval(this.animateWaves(), 60)
   }
 }
