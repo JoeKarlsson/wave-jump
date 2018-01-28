@@ -3,6 +3,7 @@ import Player from '../sprites/Player'
 
 export default class GameState extends Phaser.State {
   init () {
+    this.pressed
     this.rope = null
     this.WAVE_LENGTH = 2
     this.count = 0
@@ -15,7 +16,14 @@ export default class GameState extends Phaser.State {
     this.defaultVelocity = 500
     this.defaultGravity = 3000
   }
-  preload () {}
+
+  preload () {
+    this.bmd1 = this.game.add.bitmapData(5, 5)
+    this.bmd1.fill(255, 0, 0, 1)
+
+    this.bmd2 = this.game.add.bitmapData(5, 5)
+    this.bmd2.fill(0, 0, 255, 1)
+  }
 
   initWaves () {
     this.waves = this.game.add.group()
@@ -146,6 +154,28 @@ export default class GameState extends Phaser.State {
       asset: 'player',
       name: 'Player2Clone2'
     })
+
+    this.emitter1 = this.game.add.emitter(this.player1.x, this.player1.y, 3000)
+    this.emitter1.gravity = 0
+    this.emitter1.frequency = 50
+    this.emitter1.maxParticleSpeed = 0
+    this.emitter1.minRotation = 0
+    this.emitter1.maxRotation = 0
+    this.emitter1.autoScale = false
+    this.emitter1.setAlpha(1, 0, 2500)
+    this.emitter1.makeParticles(this.bmd1)
+    this.emitter1.start(false, 3000, 0)
+
+    this.emitter2 = this.game.add.emitter(this.player2.x, this.player2.y, 3000)
+    this.emitter2.gravity = 0
+    this.emitter2.frequency = 50
+    this.emitter2.maxParticleSpeed = 0
+    this.emitter2.minRotation = 0
+    this.emitter2.maxRotation = 0
+    this.emitter2.autoScale = false
+    this.emitter2.setAlpha(1, 0, 2500)
+    this.emitter2.makeParticles(this.bmd2)
+    this.emitter2.start(false, 3000, 0)
   }
 
   create () {
@@ -196,12 +226,19 @@ export default class GameState extends Phaser.State {
       this.player1.body.velocity.y = -this.defaultVelocity * 4
       this.player1Clone1.body.velocity.y = -this.defaultVelocity * 4
       this.player1Clone2.body.velocity.y = -this.defaultVelocity * 4
+      this.emitter1.on = true
+      this.pressed = true
     }
 
     if (this.aKey.isDown) {
       this.player1.body.velocity.x -= 2000
-    } else if (this.dKey.isDown) {
+      this.emitter1.on = true
+      this.pressed = true
+    }
+    if (this.dKey.isDown) {
       this.player1.body.velocity.x += 2000
+      this.emitter1.on = true
+      this.pressed = true
     }
 
     // PLAYER2 KEYBOARD MAPPING
@@ -209,18 +246,37 @@ export default class GameState extends Phaser.State {
       this.player2.body.velocity.y = -this.defaultVelocity * 4
       this.player2Clone1.body.velocity.y = -this.defaultVelocity * 4
       this.player2Clone2.body.velocity.y = -this.defaultVelocity * 4
+      this.emitter2.on = true
+      this.pressed = true
     }
 
     if (this.leftKey.isDown) {
       this.player2.body.velocity.x -= 2000
-    } else if (this.rightKey.isDown) {
+      this.emitter2.on = true
+      this.pressed = true
+    }
+
+    if (this.rightKey.isDown) {
       this.player2.body.velocity.x += 2000
+      this.emitter2.on = true
+      this.pressed = true
     }
 
     this.player1Clone1.x = this.player1.x - 5
     this.player1Clone2.x = this.player1.x + 5
     this.player2Clone1.x = this.player2.x - 5
     this.player2Clone2.x = this.player2.x + 5
+
+    this.emitter1.x = this.player1.x
+    this.emitter1.y = this.player1.y
+
+    this.emitter2.x = this.player2.x
+    this.emitter2.y = this.player2.y
+
+    if (!this.pressed) {
+      this.emitter1.on = false
+      this.emitter2.on = false
+    }
   }
 
   animateWaves () {
