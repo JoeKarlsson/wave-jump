@@ -1,6 +1,6 @@
-import 'pixi'
-import 'p2'
-import Phaser from 'phaser'
+// Phaser CE is loaded globally via script tag in index.html
+// Access it from the window object
+const Phaser = window.Phaser
 
 import BootState from './states/Boot'
 import SplashState from './states/Splash'
