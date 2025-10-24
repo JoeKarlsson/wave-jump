@@ -11,10 +11,10 @@ Ride a bolt of electricity in a slick retro-futuristic sunset world with your fr
 
 You've been warned. This game will make your brain melt.
 
-You can play Wave Jump for free today: [https://wave-jump.herokuapp.com/](https://wave-jump.herokuapp.com/)
+You can play Wave Jump for free today: [https://joekarlsson.github.io/wave-jump/](https://joekarlsson.github.io/wave-jump/)
 
 ## Setup
-To use this game you’ll need to install a few things before you have a working copy of the project.
+To use this game you'll need to install a few things before you have a working copy of the project.
 
 ### 1. Clone this repo:
 
@@ -26,14 +26,13 @@ Run:
 git clone git@github.com:JoeKarlsson/wave-jump.git
 ```
 
-### 2. Install node.js and npm:
+### 2. Install Node.js and npm:
 
-[nodejs.org/](https://nodejs.org/en/)
-
+This project requires Node.js 18+ and npm. Download from [nodejs.org/](https://nodejs.org/en/)
 
 ### 3. Install dependencies:
 
-Navigate to the cloned repo’s directory.
+Navigate to the cloned repo's directory.
 
 Run:
 
@@ -46,29 +45,50 @@ npm install
 Run:
 
 ```bash
-npm start
+npm run dev
 ```
 
-This will run a server so you can run the game in a browser.
+This will start the Vite development server with hot module replacement (HMR).
 
-Open your browser and enter [localhost:3000](http://localhost:3000/) into the address bar.
+Open your browser and navigate to [localhost:3000](http://localhost:3000/)
 
-Also this will start a watch process, so you can change the source and the process will recompile and refresh the browser
+The page will automatically reload when you make changes to the source code.
 
-
-## Build for deployment:
+## Build for production:
 
 Run:
 ```bash
-npm run deploy
+npm run build
 ```
 
-This will optimize and minimize the compiled bundle and generate the index.html.
+This will create an optimized production build in the `dist/` directory.
+
+## Preview production build locally:
+
+After building, you can preview the production build locally:
+
+```bash
+npm run preview
+```
+
+## Deploy to GitHub Pages:
+
+This project is configured to automatically deploy to GitHub Pages via GitHub Actions.
+
+1. Push your code to the `main` or `master` branch
+2. GitHub Actions will automatically build and deploy to GitHub Pages
+3. Your game will be available at `https://[your-username].github.io/wave-jump/`
+
+**Note:** Make sure GitHub Pages is enabled in your repository settings and set to deploy from GitHub Actions.
 
 ## Technologies Used:
 
-*  ES6 JavaScript
-*  [Phaser.io](https://phaser.io/)
+*  ES6+ JavaScript (ES Modules)
+*  [Phaser CE 2.10.0](https://phaser.io/)
+*  [Vite 6.x](https://vitejs.dev/) - Modern build tool with HMR
+*  ESLint 9.x with flat config
+*  Prettier for code formatting
+*  GitHub Actions for CI/CD
 
 ## Contributing
 

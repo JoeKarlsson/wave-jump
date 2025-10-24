@@ -1,4 +1,4 @@
-import Phaser from 'phaser'
+const Phaser = window.Phaser
 import Player from '../sprites/Player'
 
 export default class GameState extends Phaser.State {
