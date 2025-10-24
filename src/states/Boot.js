@@ -28,19 +28,19 @@ export default class extends Phaser.State {
     //
     // load your assets
     //
-    this.load.image('titleBg', 'assets/images/titleBg.png')
-    this.load.image('title', 'assets/images/title.png')
-    this.load.image('player', 'assets/images/Player.png')
-    this.load.image('winback', 'assets/images/gameplay background.png')
-    this.load.image('player1', 'assets/images/player 1 wins separate smaller.png')
-    this.load.image('player2', 'assets/images/player 2 wins separate smaller.png')
-    this.load.image('loaderBg', './assets/images/loader-bg.png')
-    this.load.image('loaderBar', './assets/images/loader-bar.png')
-    this.load.image('background', './assets/images/gameplay background.png')
-    this.load.image('tempWave', './assets/images/wave prototype.png')
-    this.load.image('raceGate', './assets/images/raceGate.png')
-    this.load.image('score', 'assets/images/score small.png')
-    this.game.load.audio('Ferrari', 'assets/audio/Ferrari.wav')
+    this.load.image('titleBg', '/images/titleBg.png')
+    this.load.image('title', '/images/title.png')
+    this.load.image('player', '/images/Player.png')
+    this.load.image('winback', '/images/gameplay background.png')
+    this.load.image('player1', '/images/player 1 wins separate smaller.png')
+    this.load.image('player2', '/images/player 2 wins separate smaller.png')
+    this.load.image('loaderBg', '/images/loader-bg.png')
+    this.load.image('loaderBar', '/images/loader-bar.png')
+    this.load.image('background', '/images/gameplay background.png')
+    this.load.image('tempWave', '/images/wave prototype.png')
+    this.load.image('raceGate', '/images/raceGate.png')
+    this.load.image('score', '/images/score small.png')
+    this.game.load.audio('Ferrari', '/audio/Ferrari.wav')
   }
 
   render () {
