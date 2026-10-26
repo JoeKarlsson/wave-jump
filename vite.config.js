@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename)
 
 export default defineConfig(({ command }) => {
   return {
-    base: command === 'build' ? '/wave-jump/' : '/',
+    base: '/',
 
     publicDir: 'assets',
 

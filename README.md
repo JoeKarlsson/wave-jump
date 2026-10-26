@@ -11,7 +11,7 @@ Ride a bolt of electricity in a slick retro-futuristic sunset world with your fr
 
 You've been warned. This game will make your brain melt.
 
-You can play Wave Jump for free today: [https://joekarlsson.github.io/wave-jump/](https://joekarlsson.github.io/wave-jump/)
+You can play Wave Jump for free today: [https://wavejump.joekarlsson.com/](https://wavejump.joekarlsson.com/)
 
 ## Setup
 To use this game you'll need to install a few things before you have a working copy of the project.

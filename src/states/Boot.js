@@ -11,10 +11,8 @@ export default class extends Phaser.State {
   }
 
   preload () {
-    // Set base URL for production GitHub Pages deployment
-    // In production, assets are served from /wave-jump/ subdirectory
-    // In development, they're served from root /
-    const baseURL = import.meta.env.PROD ? '/wave-jump/' : '/'
+    // Assets are served from the site root (wavejump.joekarlsson.com)
+    const baseURL = '/'
     this.load.baseURL = baseURL
 
     WebFont.load({
