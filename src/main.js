@@ -9,9 +9,9 @@ import Player2WinState from './states/Player2Win'
 
 export class Game extends Phaser.Game {
   constructor () {
-    const { clientWidth, clientHeight } = document.documentElement
-
-    super(clientWidth, clientHeight, Phaser.CANVAS, 'content', null)
+    // A fixed 1920x1080 world, scaled to fit the window (see Boot), so the
+    // spawn points, gate and text land in the same places on every screen
+    super(1920, 1080, Phaser.AUTO, 'content', null)
 
     this.state.add('Boot', BootState, false)
     this.state.add('Splash', SplashState, false)

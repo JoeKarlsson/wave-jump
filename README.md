@@ -114,7 +114,7 @@ Every push to `master` runs lint and the tests in GitHub Actions, then deploys `
 
 ## Contributors
 
-This game was created for the [Global Game Jam 2018](http://globalgamejam.org/) over 48 hours on January 26 - 28, 2018 in Minneapolis, MN.
+This game was created for the [Global Game Jam 2018](https://globalgamejam.org/) over 48 hours on January 26 - 28, 2018 in Minneapolis, MN.
 
 ![wave_jump_team_photo](https://user-images.githubusercontent.com/4650739/35485808-4e223b96-042a-11e8-9bad-c3516f8939c2.jpg)
 
@@ -149,7 +149,7 @@ This game was created for the [Global Game Jam 2018](http://globalgamejam.org/) 
   <tbody>
 </table>
 
-Original music and sounds by [Andrew Hill](https://www.origin414.com/andrew-hill)
+Original music and sounds by Andrew Hill
 
 ### License
 

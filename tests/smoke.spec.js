@@ -53,6 +53,17 @@ test.describe('desktop', () => {
     await page.waitForFunction(() => window.game.state.current === 'Game')
     await page.keyboard.up('Space')
 
+    // Both players land on the wave instead of falling through it, and the gate is on screen
+    await page.waitForTimeout(1500)
+    const layout = await page.evaluate(() => {
+      const round = window.game.state.states.Game
+      return {
+        landed: [round.player1.y, round.player2.y].every((y) => y < round.waves.y + 250),
+        gateOnScreen: round.raceGate.y > 0 && round.raceGate.y < window.game.height
+      }
+    })
+    expect(layout).toEqual({ landed: true, gateOnScreen: true })
+
     await page.keyboard.down('d')
     await page.keyboard.down('ArrowLeft')
     await page.waitForTimeout(2000)
@@ -67,6 +78,20 @@ test.describe('desktop', () => {
     }))
     expect(overflow).toEqual({ wide: false, tall: false })
     expect(errors).toEqual([])
+  })
+})
+
+test.describe('small window', () => {
+  test.skip(({ isMobile }) => isMobile, 'keyboard game')
+  test.use({ viewport: { width: 960, height: 540 } })
+
+  test('scales the 1920x1080 game down to fit, like the embed on joekarlsson.com', async ({ page }) => {
+    await page.goto('/')
+    await page.waitForFunction(() => window.game?.state.current === 'Splash')
+    const box = await page.locator('#content canvas').boundingBox()
+    expect(box.width).toBeLessThanOrEqual(960)
+    expect(box.height).toBeLessThanOrEqual(540)
+    expect(await page.evaluate(() => [window.game.width, window.game.height])).toEqual([1920, 1080])
   })
 })
 

@@ -40,7 +40,9 @@ export default class GameState extends Phaser.State {
       let wave = this.game.add.sprite(x, y, 'tempWave', this.game.rnd.between(0, 1))
       wave.anchor.set(0.5, 0.5)
       this.physics.enable(wave, Phaser.Physics.ARCADE)
-      wave.body.setSize(7, 7, 0, 0)
+      // Deep enough that a landing player can't pass through between frames, shallow
+      // enough that a dive (S or down, ~58px a frame) still goes through
+      wave.body.setSize(7, 24, 0, 0)
       this.waves.add(wave)
       wave.collideWorldBounds = true
       wave.body.immovable = true

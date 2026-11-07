@@ -5,6 +5,9 @@ export default class extends Phaser.State {
     this.game.scoreP1 = 0
     this.game.scoreP2 = 0
     this.stage.backgroundColor = '#EDEEC9'
+    this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
+    this.scale.pageAlignHorizontally = true
+    this.scale.pageAlignVertically = true
     this.fontsReady = false
   }
 
