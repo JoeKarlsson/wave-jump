@@ -13,6 +13,12 @@ You've been warned. This game will make your brain melt.
 
 You can play Wave Jump for free today: [https://wavejump.joekarlsson.com/](https://wavejump.joekarlsson.com/)
 
+## Recording (November 2026)
+
+[![Wave Jump: the sunset title screen, then two players riding a rolling white wave over a blue grid, and a big "Player 1 Wins" screen each time one reaches the checkered gate](.github/readme/2026-11-recording.webp)](.github/readme/2026-11-recording.mp4)
+
+What Wave Jump looked like in November 2026, recorded for [its page on joekarlsson.com](https://www.joekarlsson.com/work/wave-jump/). Click the picture to play the video.
+
 ## Setup
 To use this game you'll need to install a few things before you have a working copy of the project.
 
