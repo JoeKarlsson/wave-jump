@@ -7,7 +7,8 @@ export default class GameState extends Phaser.State {
     this.rope = null
     this.WAVE_LENGTH = 2
     this.count = 0
-    this.numWaves = (window.innerWidth * window.devicePixelRatio / this.WAVE_LENGTH) // Screen is only 800px wide, 6*160 = 960 pixels of coverage.
+    // One wave sprite every WAVE_LENGTH pixels across the canvas, plus a few off each edge
+    this.numWaves = Math.ceil(this.game.width / this.WAVE_LENGTH) + 4
     this.waveTotalLength = this.WAVE_LENGTH * this.numWaves
     this.waves = null
     this.game.scaleRatio = 0.1
@@ -342,11 +343,11 @@ export default class GameState extends Phaser.State {
 
   // Players do not move. I think that they are locked onto the waves that
   // they collided with
-  collisionHandler (obj1, obj2) {}
+  collisionHandler (_obj1, _obj2) {}
 
-  dummyCollisionHandler (obj1, obj2) {}
+  dummyCollisionHandler (_obj1, _obj2) {}
 
-  endGameCollisionHandler (obj1, obj2) {
+  endGameCollisionHandler (obj1, _obj2) {
     switch (obj1.name) {
       case (this.player1.name):
         this.game.scoreP1 = this.game.scoreP1 + 1
@@ -381,17 +382,16 @@ export default class GameState extends Phaser.State {
     this.game.physics.arcade.collide(this.player1, this.raceGate, this.endGameCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player2, this.raceGate, this.endGameCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player1Clone1, this.raceGate, this.endGameCollisionHandler, null, this)
-    this.game.physics.arcade.collide(this.player2Clone1, this.raceGate, this.endGamecollisionHandler, null, this)
+    this.game.physics.arcade.collide(this.player2Clone1, this.raceGate, this.endGameCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player1Clone2, this.raceGate, this.endGameCollisionHandler, null, this)
-    this.game.physics.arcade.collide(this.player2Clone2, this.raceGate, this.endGamecollisionHandler, null, this)
+    this.game.physics.arcade.collide(this.player2Clone2, this.raceGate, this.endGameCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player1Clone1, this.waves, this.dummyCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player1Clone2, this.waves, this.dummyCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player2Clone1, this.waves, this.dummyCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player2Clone2, this.waves, this.dummyCollisionHandler, null, this)
-    this.game.physics.arcade.collide(this.waves)
 
     this.player1.body.gravity.x *= 0.5
     this.player2.body.gravity.x *= 0.5
-    setInterval(this.animateWaves(), 60)
+    this.animateWaves()
   }
 }

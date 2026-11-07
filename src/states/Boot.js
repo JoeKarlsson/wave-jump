@@ -1,5 +1,4 @@
 const Phaser = window.Phaser
-import WebFont from 'webfontloader'
 
 export default class extends Phaser.State {
   init () {
@@ -7,53 +6,36 @@ export default class extends Phaser.State {
     this.game.scoreP2 = 0
     this.stage.backgroundColor = '#EDEEC9'
     this.fontsReady = false
-    this.fontsLoaded = this.fontsLoaded.bind(this)
   }
 
   preload () {
-    // Assets are served from the site root (wavejump.joekarlsson.com)
-    const baseURL = '/'
-    this.load.baseURL = baseURL
-
-    WebFont.load({
-      google: {
-        families: ['Bangers']
-      },
-      active: this.fontsLoaded
+    // Bangers is self-hosted and declared in index.html; Phaser draws text to a
+    // canvas, so it has to finish loading before the first text is drawn.
+    document.fonts.load('40px Bangers').then(() => {
+      this.fontsReady = true
     })
 
-    this.game.text = this.add.text(this.world.centerX, this.world.centerY, 'loading fonts', {
+    this.game.text = this.add.text(this.world.centerX, this.world.centerY, 'loading', {
       font: '50px Arial',
       fill: '#000000',
       align: 'center'
     })
     this.game.text.anchor.setTo(0.5, 0.5)
 
-    //
-    // load your assets
-    //
-    this.load.image('titleBg', 'images/titleBg.png')
-    this.load.image('title', 'images/title.png')
-    this.load.image('player', 'images/Player.png')
-    this.load.image('winback', 'images/gameplay background.png')
-    this.load.image('player1', 'images/player 1 wins separate smaller.png')
-    this.load.image('player2', 'images/player 2 wins separate smaller.png')
-    this.load.image('loaderBg', 'images/loader-bg.png')
-    this.load.image('loaderBar', 'images/loader-bar.png')
-    this.load.image('background', 'images/gameplay background.png')
-    this.load.image('tempWave', 'images/wave prototype.png')
-    this.load.image('raceGate', 'images/raceGate.png')
-    this.load.image('score', 'images/score small.png')
-    this.game.load.audio('Ferrari', 'audio/Ferrari.wav')
+    this.load.image('titleBg', 'images/title-background.webp')
+    this.load.image('title', 'images/title.webp')
+    this.load.image('player', 'images/player.webp')
+    this.load.image('player1', 'images/player-1-wins.webp')
+    this.load.image('player2', 'images/player-2-wins.webp')
+    this.load.image('background', 'images/gameplay-background.webp')
+    this.load.image('tempWave', 'images/wave.webp')
+    this.load.image('raceGate', 'images/race-gate.webp')
+    this.load.audio('Ferrari', 'audio/ferrari.mp3')
   }
 
   render () {
     if (this.fontsReady) {
       this.state.start('Splash')
     }
-  }
-
-  fontsLoaded () {
-    this.fontsReady = true
   }
 }

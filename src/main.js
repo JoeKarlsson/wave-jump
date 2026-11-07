@@ -1,5 +1,4 @@
-// Phaser CE is loaded globally via script tag in index.html
-// Access it from the window object
+// Phaser CE is loaded as a classic script before this module (see vite.config.js)
 const Phaser = window.Phaser
 
 import BootState from './states/Boot'
@@ -8,15 +7,11 @@ import GameState from './states/Game'
 import Player1WinState from './states/Player1Win'
 import Player2WinState from './states/Player2Win'
 
-import config from './config'
-
 export class Game extends Phaser.Game {
   constructor () {
-    const docElement = document.documentElement
-    const width = docElement.clientWidth > config.gameWidth ? config.gameWidth : docElement.clientWidth
-    const height = docElement.clientHeight > config.gameHeight ? config.gameHeight : docElement.clientHeight
+    const { clientWidth, clientHeight } = document.documentElement
 
-    super(width, height, Phaser.CANVAS, 'content', null)
+    super(clientWidth, clientHeight, Phaser.CANVAS, 'content', null)
 
     this.state.add('Boot', BootState, false)
     this.state.add('Splash', SplashState, false)
@@ -28,4 +23,10 @@ export class Game extends Phaser.Game {
   }
 }
 
-window.game = new Game()
+// Two players share one keyboard, so a touch-only device can't play
+const isTouchOnly = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+if (isTouchOnly) {
+  document.querySelector('.keyboard-notice').hidden = false
+} else {
+  window.game = new Game()
+}

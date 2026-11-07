@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wavejump.joekarlsson.com/sitemap.xml

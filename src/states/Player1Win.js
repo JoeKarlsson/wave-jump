@@ -5,7 +5,7 @@ export default class extends Phaser.State {
   init () {}
 
   preload () {
-    const titleBg = this.game.add.image(0, 0, 'winback')
+    const titleBg = this.game.add.image(0, 0, 'background')
     titleBg.width = this.game.width
     titleBg.height = this.game.height
 

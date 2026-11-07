@@ -1,35 +1,22 @@
 import js from '@eslint/js'
+import globals from 'globals'
 
 export default [
   js.configs.recommended,
   {
-    files: ['**/*.js'],
+    files: ['src/**/*.js'],
     languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-      globals: {
-        __DEV__: 'readonly',
-        // Browser globals
-        window: 'readonly',
-        document: 'readonly',
-        console: 'readonly',
-        setInterval: 'readonly',
-        clearInterval: 'readonly',
-        setTimeout: 'readonly',
-        clearTimeout: 'readonly',
-        // Phaser globals
-        Phaser: 'readonly',
-        PIXI: 'readonly',
-        p2: 'readonly',
-        WebFont: 'readonly'
-      }
+      globals: { ...globals.browser, Phaser: 'readonly', PIXI: 'readonly' }
     },
     rules: {
-      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      'no-console': 'off'
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }]
     }
   },
   {
-    ignores: ['node_modules/', 'dist/', '*.config.js']
+    files: ['tests/**/*.js', 'scripts/**/*.mjs', '*.config.js'],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } }
+  },
+  {
+    ignores: ['node_modules/', 'dist/', 'assets/', 'test-results/', 'playwright-report/']
   }
 ]

@@ -1,47 +1,143 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://plausible.joekarlsson.io; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' blob: data:; connect-src 'self' https://plausible.joekarlsson.io; object-src 'none'; base-uri 'self'; form-action 'none'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>Wave Jump: a two-player race on one keyboard</title>
+    <meta
+      name="description"
+      content="A two-player race on one keyboard. Ride a rolling wave across an 80s sunset grid and dive through the gate first. Made at Global Game Jam 2018."
+    />
+    <meta name="author" content="Joe Karlsson" />
+    <link rel="canonical" href="https://wavejump.joekarlsson.com/" />
+    <meta name="theme-color" content="#0a14ff" />
+    <meta name="color-scheme" content="only light" />
+    <meta name="darkreader-lock" />
 
-<head>
-    <meta charset="UTF-8">
-    <title>Wave Jump</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="MobileOptimized" content="320">
-    <meta http-equiv="cleartype" content="on">
-
-    <meta name="description" content="Wave Jump is a 80's arcade inspired multiplayer game where you've got to be lightening fast to beat your friend to the finish.">
-    <meta name="theme-color" content="#ffffff">
-
-    <!-- OG Meta Data
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta property="og:description" content="Wave Jump is a 80's arcade inspired multiplayer game where you've got to be lightening fast to beat your friend to the finish.">
-    <meta property="og:title" content="Wave Jump">
-    <meta property="og:url" content="https://wavejump.joekarlsson.com/">
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Wave Jump" />
-    <meta property="og:image" content="https://user-images.githubusercontent.com/4650739/35486122-1ec10468-042f-11e8-960b-8e72ad203fdf.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:description" content="Wave Jump is a 80's arcade inspired multiplayer game where you've got to be lightening fast to beat your friend to the finish.">
-    <meta name="twitter:title" content="Wave Jump">
-    <meta name="twitter:site" content="@JoeKarlsson1">
-    <meta name="twitter:image" content="https://user-images.githubusercontent.com/4650739/35486122-1ec10468-042f-11e8-960b-8e72ad203fdf.png">
-    <meta name="twitter:creator" content="@joeKarlsson1">
-    <link rel="author" href="https://plus.google.com/u/0/+JoeKarlsson/posts">
+    <meta property="og:url" content="https://wavejump.joekarlsson.com/" />
+    <meta property="og:title" content="Wave Jump" />
+    <meta
+      property="og:description"
+      content="A two-player race on one keyboard. Ride a rolling wave across an 80s sunset grid and dive through the gate first."
+    />
+    <meta property="og:image" content="https://wavejump.joekarlsson.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The Wave Jump title over a neon sunset and a glowing blue grid" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@joekarlsson1" />
+    <meta name="twitter:creator" content="@joekarlsson1" />
+    <meta name="twitter:title" content="Wave Jump" />
+    <meta
+      name="twitter:description"
+      content="A two-player race on one keyboard. Ride a rolling wave across an 80s sunset grid and dive through the gate first."
+    />
+    <meta name="twitter:image" content="https://wavejump.joekarlsson.com/og-image.jpg" />
+    <meta name="twitter:image:alt" content="The Wave Jump title over a neon sunset and a glowing blue grid" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preload" href="/fonts/bangers-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Phaser CE sets window.Phaser and must run before the game module; vite.config.js swaps in the hashed file -->
+    <script src="/phaser.js" defer vite-ignore></script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "Wave Jump",
+        "url": "https://wavejump.joekarlsson.com/",
+        "description": "A two-player race on one keyboard, set on an 80s sunset grid. Made at Global Game Jam 2018.",
+        "author": { "@type": "Person", "name": "Joe Karlsson", "url": "https://www.joekarlsson.com/" },
+        "genre": "Arcade",
+        "numberOfPlayers": { "@type": "QuantitativeValue", "value": 2 },
+        "playMode": "MultiPlayer",
+        "gamePlatform": "Web browser",
+        "applicationCategory": "Game",
+        "operatingSystem": "Any",
+        "dateCreated": "2018-01"
+      }
+    </script>
 
     <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-        }
+      @font-face {
+        font-family: 'Bangers';
+        font-style: normal;
+        font-weight: 400;
+        font-display: block;
+        src: url(/fonts/bangers-latin.woff2) format('woff2');
+      }
+      :root {
+        color-scheme: only light;
+        --background: #edeec9;
+        --ink: #111111;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--background);
+        color: var(--ink);
+        font: 18px/1.5 system-ui, sans-serif;
+      }
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+      #content canvas {
+        display: block;
+      }
+      .keyboard-notice:not([hidden]) {
+        box-sizing: border-box;
+        min-height: 100svh;
+        padding: 2rem max(1rem, env(safe-area-inset-left));
+        display: grid;
+        place-content: center;
+        text-align: center;
+      }
+      .keyboard-notice h2 {
+        font: 3rem/1 'Bangers', system-ui, sans-serif;
+        margin: 0 0 1rem;
+      }
+      .keyboard-notice p {
+        max-width: 32ch;
+        margin: 0 auto 1rem;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <div id="content"></div>
-    <!-- Load Phaser CE as a global script (UMD build) -->
-    <script src="/phaser.min.js"></script>
+  <body>
+    <main>
+      <h1 class="visually-hidden">Wave Jump</h1>
+      <p class="visually-hidden">
+        A race for two players on one keyboard. Click the game, then press the spacebar to start. Player 1 jumps
+        with W, steers with A and D, and dives with S. Player 2 uses the arrow keys. First one through the
+        checkered gate scores.
+      </p>
+      <div id="content" aria-label="Wave Jump game"></div>
+      <section class="keyboard-notice" hidden>
+        <h2>Wave Jump</h2>
+        <p>This game needs two players and a keyboard, so it won't work on a phone or tablet.</p>
+        <p>Open it on a computer: <a href="https://wavejump.joekarlsson.com/">wavejump.joekarlsson.com</a></p>
+        <p><a href="https://www.joekarlsson.com/work/wave-jump/">More about Wave Jump</a></p>
+      </section>
+    </main>
+    <script src="/analytics.js" defer></script>
     <script type="module" src="/src/main.js"></script>
-</body>
-
+  </body>
 </html>

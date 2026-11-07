@@ -1,0 +1,84 @@
+import { test, expect } from '@playwright/test'
+
+// Collects console errors, page errors and failed requests so each test can assert none happened
+function watchForErrors (page) {
+  const errors = []
+  page.on('console', (message) => {
+    if (message.type() === 'error') errors.push(`console: ${message.text()}`)
+  })
+  page.on('pageerror', (error) => errors.push(`pageerror: ${error.message}`))
+  page.on('requestfailed', (request) => errors.push(`requestfailed: ${request.url()}`))
+  page.on('response', (response) => {
+    if (response.status() >= 400) errors.push(`${response.status()}: ${response.url()}`)
+  })
+  return errors
+}
+
+test('head metadata is complete', async ({ page, request }) => {
+  await page.goto('/')
+  await expect(page).toHaveTitle(/Wave Jump/)
+  const description = await page.locator('meta[name="description"]').getAttribute('content')
+  expect(description.length).toBeLessThanOrEqual(160)
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://wavejump.joekarlsson.com/')
+  await expect(page.locator('meta[name="darkreader-lock"]')).toHaveCount(1)
+  await expect(page.locator('h1')).toHaveCount(1)
+  const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content')
+  for (const path of [new URL(ogImage).pathname, '/favicon.svg', '/favicon-32.png', '/apple-touch-icon.png',
+    '/icon-192.png', '/icon-512.png', '/site.webmanifest', '/robots.txt', '/sitemap.xml']) {
+    expect((await request.get(path)).status(), path).toBe(200)
+  }
+})
+
+test.describe('desktop', () => {
+  test.skip(({ isMobile }) => isMobile, 'keyboard game')
+
+  test('plays from the title screen into a round without errors or runaway timers', async ({ page }) => {
+    // Count every setInterval the game starts; it once started one per frame and never cleared them
+    await page.addInitScript(() => {
+      window.__intervalCount = 0
+      const originalSetInterval = window.setInterval
+      window.setInterval = (...args) => {
+        window.__intervalCount++
+        return originalSetInterval(...args)
+      }
+    })
+    const errors = watchForErrors(page)
+    await page.goto('/')
+
+    await expect(page.locator('#content canvas')).toBeVisible()
+    await page.waitForFunction(() => window.game?.state.current === 'Splash')
+    await page.locator('#content canvas').click()
+    // The game polls isDown once a frame, so hold the key like a person would
+    await page.keyboard.down('Space')
+    await page.waitForFunction(() => window.game.state.current === 'Game')
+    await page.keyboard.up('Space')
+
+    await page.keyboard.down('d')
+    await page.keyboard.down('ArrowLeft')
+    await page.waitForTimeout(2000)
+    await page.keyboard.up('d')
+    await page.keyboard.up('ArrowLeft')
+
+    expect(await page.evaluate(() => window.__intervalCount)).toBeLessThan(5)
+    await expect(page.locator('.keyboard-notice')).toBeHidden()
+    const overflow = await page.evaluate(() => ({
+      wide: document.documentElement.scrollWidth > window.innerWidth,
+      tall: document.documentElement.scrollHeight > window.innerHeight
+    }))
+    expect(overflow).toEqual({ wide: false, tall: false })
+    expect(errors).toEqual([])
+  })
+})
+
+test.describe('phone', () => {
+  test.skip(({ isMobile }) => !isMobile, 'touch-only device')
+
+  test('explains it needs a keyboard instead of starting the game', async ({ page }) => {
+    const errors = watchForErrors(page)
+    await page.goto('/')
+    await expect(page.getByText('needs two players and a keyboard')).toBeVisible()
+    await expect(page.locator('#content canvas')).toHaveCount(0)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+    expect(errors).toEqual([])
+  })
+})

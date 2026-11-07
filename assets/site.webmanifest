@@ -1,0 +1,15 @@
+{
+  "name": "Wave Jump",
+  "short_name": "Wave Jump",
+  "description": "A two-player race on one keyboard, set on an 80s sunset grid.",
+  "start_url": "/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#edeec9",
+  "theme_color": "#0a14ff",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

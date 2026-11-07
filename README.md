@@ -34,7 +34,7 @@ git clone git@github.com:JoeKarlsson/wave-jump.git
 
 ### 2. Install Node.js and npm:
 
-This project requires Node.js 18+ and npm. Download from [nodejs.org/](https://nodejs.org/en/)
+This project requires Node.js 22+ and npm. Download from [nodejs.org/](https://nodejs.org/en/)
 
 ### 3. Install dependencies:
 
@@ -77,22 +77,30 @@ After building, you can preview the production build locally:
 npm run preview
 ```
 
-## Deploy to GitHub Pages:
+## Test:
 
-This project is configured to automatically deploy to GitHub Pages via GitHub Actions.
+```bash
+npx playwright install chromium   # once
+npm test
+```
 
-1. Push your code to the `main` or `master` branch
-2. GitHub Actions will automatically build and deploy to GitHub Pages
-3. Your game will be available at `https://[your-username].github.io/wave-jump/`
+The tests build the site, serve it, and play it in a browser: the head metadata and icons, a round on a desktop (no console errors, failed requests or runaway timers), and the keyboard notice on a phone.
 
-**Note:** Make sure GitHub Pages is enabled in your repository settings and set to deploy from GitHub Actions.
+## Assets:
+
+Everything in `assets/` ships with the site. The original full-size art and the WAV music live in `design/` and don't ship; the game loads compressed WebP and MP3 copies. To redraw the PNG icons from `assets/favicon.svg` and the social card from the title screen, build, start `npx vite preview --port 4173`, then run `npm run images`.
+
+## Deploy:
+
+Every push to `master` runs lint and the tests in GitHub Actions, then deploys `dist/` to GitHub Pages at [wavejump.joekarlsson.com](https://wavejump.joekarlsson.com/).
 
 ## Technologies Used:
 
 *  ES6+ JavaScript (ES Modules)
-*  [Phaser CE 2.10.0](https://phaser.io/)
-*  [Vite 6.x](https://vitejs.dev/) - Modern build tool with HMR
-*  ESLint 9.x with flat config
+*  [Phaser CE 2.21](https://github.com/phaserjs/phaser-ce) (the arcade-physics build)
+*  [Vite 8](https://vitejs.dev/)
+*  [Playwright](https://playwright.dev/) for tests
+*  ESLint 10 with flat config
 *  Prettier for code formatting
 *  GitHub Actions for CI/CD
 

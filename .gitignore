@@ -29,3 +29,7 @@ lerna-debug.log*
 
 # OS files
 Thumbs.db
+
+# Playwright
+test-results/
+playwright-report/

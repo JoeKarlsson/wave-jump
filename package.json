@@ -1,17 +1,18 @@
 {
 	"name": "wave-jump",
 	"version": "1.0.0",
-	"description": "Ride the wave. Beat your friends to the finish",
+	"description": "A two-player race on one keyboard, set on an 80s sunset grid",
 	"author": "Joe Karlsson <joekarlsson1@gmail.com>",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
 		"preview": "vite preview",
-		"lint": "eslint src --no-warn-ignored",
-		"lint:fix": "eslint src --fix --no-warn-ignored",
-		"format": "prettier --write \"src/**/*.{js,json,css,html}\"",
-		"deploy": "npm run build"
+		"lint": "eslint src tests scripts",
+		"lint:fix": "eslint src tests scripts --fix",
+		"format": "prettier --write \"src/**/*.js\" \"tests/**/*.js\"",
+		"test": "playwright test",
+		"images": "node scripts/render-images.mjs"
 	},
 	"license": "MIT",
 	"repository": {
@@ -19,15 +20,17 @@
 		"url": "https://github.com/JoeKarlsson/wave-jump.git"
 	},
 	"dependencies": {
-		"phaser-ce": "2.10.0",
-		"webfontloader": "^1.6.28"
+		"phaser-ce": "2.21.0"
 	},
 	"devDependencies": {
-		"@eslint/js": "^9.17.0",
-		"@playwright/test": "^1.56.1",
-		"eslint": "^9.17.0",
-		"playwright": "^1.56.1",
-		"prettier": "^3.4.2",
-		"vite": "^6.0.5"
+		"@eslint/js": "^10.0.1",
+		"@playwright/test": "^1.65.0",
+		"eslint": "^10.14.0",
+		"globals": "^17.14.0",
+		"prettier": "^3.9.10",
+		"vite": "^8.3.6"
+	},
+	"engines": {
+		"node": ">=22"
 	}
 }
