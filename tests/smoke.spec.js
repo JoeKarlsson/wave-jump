@@ -132,3 +132,12 @@ test('has no automatically detectable accessibility problems', async ({ page }) 
     .analyze()
   expect(results.violations.map((violation) => `${violation.id}: ${violation.nodes.map((node) => node.target).join(', ')}`)).toEqual([])
 })
+
+test('on its own page the game starts with sound, and the button mutes it', async ({ page, isMobile }) => {
+  test.skip(isMobile && true, 'phones get the keyboard notice instead')
+  await page.goto('/')
+  await page.waitForFunction(() => window.game?.state.current === 'Splash', null, { timeout: 15000 })
+  expect(await page.evaluate(() => window.game.sound.mute)).toBe(false)
+  await page.getByRole('button', { name: 'Turn sound off' }).click()
+  expect(await page.evaluate(() => window.game.sound.mute)).toBe(true)
+})

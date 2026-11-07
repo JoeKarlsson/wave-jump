@@ -66,3 +66,19 @@ test('goes full screen from inside the embed and fills the screen', async ({ pag
   }).toBeGreaterThan(0.95)
   expect(await gameFrame.evaluate(() => document.activeElement?.className)).not.toBe('fullscreen-toggle')
 })
+
+test('starts muted, stays muted through a pause, and the sound button turns it on', async ({ page }) => {
+  const { frame, gameFrame } = await openEmbed(page)
+  const muted = () => gameFrame.evaluate(() => window.game.sound.mute)
+  expect(await muted()).toBe(true)
+
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
+  await expect.poll(() => gameFrame.evaluate(() => window.game.paused)).toBe(true)
+  await page.locator('iframe').scrollIntoViewIfNeeded()
+  await expect.poll(() => gameFrame.evaluate(() => window.game.paused)).toBe(false)
+  expect(await muted()).toBe(true)
+
+  await frame.getByRole('button', { name: 'Turn sound on' }).click()
+  expect(await muted()).toBe(false)
+  await expect(frame.getByRole('button', { name: 'Turn sound off' })).toBeVisible()
+})

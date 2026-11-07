@@ -88,7 +88,7 @@ The tests build the site, serve it, and play it in Chrome, Firefox and Safari (W
 
 ## Embedding:
 
-The game is built to run in an iframe as well as on its own page. Give the iframe `allow="fullscreen; autoplay"` and `allowfullscreen` so the full-screen button and sound work. It scales to fit any frame, letterboxed; it pauses when scrolled out of view, and keeps space and the arrow keys from scrolling the page around it.
+The game is built to run in an iframe as well as on its own page. Give the iframe `allow="fullscreen; autoplay"` and `allowfullscreen` so the full-screen button and sound work. Embedded, it starts muted so nobody scrolling past is startled; the speaker button turns sound on. It scales to fit any frame, letterboxed; it pauses when scrolled out of view, and keeps space and the arrow keys from scrolling the page around it.
 
 ## Assets:
 

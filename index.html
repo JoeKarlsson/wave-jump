@@ -90,11 +90,16 @@
         color: var(--ink);
         font: 18px/1.5 system-ui, sans-serif;
       }
-      .fullscreen-toggle:not([hidden]) {
+      /* Sound and full-screen buttons, bottom right over the letterbox */
+      .page-controls {
         position: fixed;
         right: max(12px, env(safe-area-inset-right));
         bottom: max(12px, env(safe-area-inset-bottom));
         z-index: 2;
+        display: flex;
+        gap: 8px;
+      }
+      .page-control:not([hidden]) {
         width: 44px;
         height: 44px;
         display: grid;
@@ -107,13 +112,20 @@
         opacity: 0.7;
         cursor: pointer;
       }
-      .fullscreen-toggle:hover,
-      .fullscreen-toggle:focus-visible {
+      .page-control:hover,
+      .page-control:focus-visible {
         opacity: 1;
       }
-      .fullscreen-toggle:focus-visible {
+      .page-control:focus-visible {
         outline: 3px solid #ffffff;
         outline-offset: 2px;
+      }
+      .sound-toggle .icon-sound-off,
+      .sound-toggle.is-muted .icon-sound-on {
+        display: none;
+      }
+      .sound-toggle.is-muted .icon-sound-off {
+        display: block;
       }
       .visually-hidden {
         position: absolute;
@@ -154,7 +166,8 @@
       }
       @media (hover: none) and (pointer: coarse) {
         .poster,
-        #content {
+        #content,
+        .page-controls {
           display: none;
         }
         .keyboard-notice {
@@ -189,11 +202,23 @@
       <!-- Paints right away and covers loading; Splash.js removes it when the title screen starts -->
       <img class="poster" src="/images/title-background.webp" alt="" width="2048" height="1583" fetchpriority="high" />
       <div id="content" role="application" aria-label="Wave Jump game"></div>
-      <button class="fullscreen-toggle" type="button" aria-label="Full screen" hidden>
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-          <path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2" />
-        </svg>
-      </button>
+      <div class="page-controls">
+        <button class="page-control sound-toggle" type="button" aria-label="Turn sound off">
+          <svg class="icon-sound-on" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor" />
+            <path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" />
+          </svg>
+          <svg class="icon-sound-off" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor" />
+            <path d="M16 9l6 6M22 9l-6 6" fill="none" stroke="currentColor" stroke-width="2" />
+          </svg>
+        </button>
+        <button class="page-control fullscreen-toggle" type="button" aria-label="Full screen" hidden>
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2" />
+          </svg>
+        </button>
+      </div>
       <section class="keyboard-notice">
         <h2>Wave Jump</h2>
         <p>This game needs two players and a keyboard, so it won't work on a phone or tablet.</p>

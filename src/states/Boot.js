@@ -1,10 +1,12 @@
 const Phaser = window.Phaser
+import { applySoundSetting } from '../pageControls'
 
 export default class extends Phaser.State {
   init () {
     this.game.scoreP1 = 0
     this.game.scoreP2 = 0
     this.stage.backgroundColor = '#EDEEC9'
+    applySoundSetting(this.game)
     // Step the game logic at a fixed 60 per second, catching up on slow frames,
     // instead of one variable-length step per frame. With variable steps a
     // 150ms frame moved players 100px+ at once, straight through the wave.
