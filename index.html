@@ -90,6 +90,31 @@
         color: var(--ink);
         font: 18px/1.5 system-ui, sans-serif;
       }
+      .fullscreen-toggle:not([hidden]) {
+        position: fixed;
+        right: max(12px, env(safe-area-inset-right));
+        bottom: max(12px, env(safe-area-inset-bottom));
+        z-index: 2;
+        width: 44px;
+        height: 44px;
+        display: grid;
+        place-items: center;
+        padding: 0;
+        border: 0;
+        border-radius: 6px;
+        background: rgb(0 0 0 / 0.55);
+        color: #ffffff;
+        opacity: 0.7;
+        cursor: pointer;
+      }
+      .fullscreen-toggle:hover,
+      .fullscreen-toggle:focus-visible {
+        opacity: 1;
+      }
+      .fullscreen-toggle:focus-visible {
+        outline: 3px solid #ffffff;
+        outline-offset: 2px;
+      }
       .visually-hidden {
         position: absolute;
         width: 1px;
@@ -105,18 +130,42 @@
         overflow: hidden;
       }
       #content {
+        display: flow-root;
         height: 100svh;
+      }
+      /* Letterboxed to 16:9, the way the game draws its title screen */
+      .poster {
+        position: fixed;
+        inset: 0;
+        margin: auto;
+        width: min(100vw, 100svh * 16 / 9);
+        height: auto;
+        aspect-ratio: 16 / 9;
+        pointer-events: none;
       }
       #content canvas {
         display: block;
+        /* Shown with the first screen, once Phaser has scaled it to fit */
+        visibility: hidden;
       }
-      .keyboard-notice:not([hidden]) {
-        box-sizing: border-box;
-        min-height: 100svh;
-        padding: 2rem max(1rem, env(safe-area-inset-left));
-        display: grid;
-        place-content: center;
-        text-align: center;
+      /* Touch-only devices get the notice straight from CSS, without waiting for Phaser */
+      .keyboard-notice {
+        display: none;
+      }
+      @media (hover: none) and (pointer: coarse) {
+        .poster,
+        #content {
+          display: none;
+        }
+        .keyboard-notice {
+          background: var(--background);
+          box-sizing: border-box;
+          min-height: 100svh;
+          padding: 2rem max(1rem, env(safe-area-inset-left));
+          display: grid;
+          place-content: center;
+          text-align: center;
+        }
       }
       .keyboard-notice h2 {
         font: 3rem/1 'Bangers', system-ui, sans-serif;
@@ -137,8 +186,15 @@
         with W, steers with A and D, and dives with S. Player 2 uses the arrow keys. First one through the
         checkered gate scores.
       </p>
-      <div id="content" aria-label="Wave Jump game"></div>
-      <section class="keyboard-notice" hidden>
+      <!-- Paints right away and covers loading; Splash.js removes it when the title screen starts -->
+      <img class="poster" src="/images/title-background.webp" alt="" width="2048" height="1583" fetchpriority="high" />
+      <div id="content" role="application" aria-label="Wave Jump game"></div>
+      <button class="fullscreen-toggle" type="button" aria-label="Full screen" hidden>
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2" />
+        </svg>
+      </button>
+      <section class="keyboard-notice">
         <h2>Wave Jump</h2>
         <p>This game needs two players and a keyboard, so it won't work on a phone or tablet.</p>
         <p>Open it on a computer: <a href="https://wavejump.joekarlsson.com/">wavejump.joekarlsson.com</a></p>

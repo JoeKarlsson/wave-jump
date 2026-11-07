@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import AxeBuilder from '@axe-core/playwright'
 
 // Collects console errors, page errors and failed requests so each test can assert none happened
 function watchForErrors (page) {
@@ -64,11 +65,25 @@ test.describe('desktop', () => {
     })
     expect(layout).toEqual({ landed: true, gateOnScreen: true })
 
-    await page.keyboard.down('d')
-    await page.keyboard.down('ArrowLeft')
-    await page.waitForTimeout(2000)
-    await page.keyboard.up('d')
-    await page.keyboard.up('ArrowLeft')
+    // Trails show while a player steers and stop when they let go
+    const trails = () => page.evaluate(() => {
+      const round = window.game.state.states.Game
+      return [round.emitter1.on, round.emitter2.on]
+    })
+    // Steer both players toward the outer edges, away from the gate (it spawns in
+    // the middle third), so the round can't end mid-test
+    await page.keyboard.down('a')
+    await page.keyboard.down('ArrowRight')
+    await page.waitForTimeout(300)
+    expect(await trails()).toEqual([true, true])
+    await page.keyboard.up('a')
+    await page.keyboard.up('ArrowRight')
+    await page.waitForTimeout(100)
+    expect(await page.evaluate(() => window.game.state.current)).toBe('Game')
+    expect(await trails()).toEqual([false, false])
+
+    // Keep playing a while so a leaking timer would pile up
+    await page.waitForTimeout(1500)
 
     expect(await page.evaluate(() => window.__intervalCount)).toBeLessThan(5)
     await expect(page.locator('.keyboard-notice')).toBeHidden()
@@ -106,4 +121,14 @@ test.describe('phone', () => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
     expect(errors).toEqual([])
   })
+})
+
+
+test('has no automatically detectable accessibility problems', async ({ page }) => {
+  await page.goto('/')
+  await page.waitForLoadState('networkidle')
+  const results = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+    .analyze()
+  expect(results.violations.map((violation) => `${violation.id}: ${violation.nodes.map((node) => node.target).join(', ')}`)).toEqual([])
 })

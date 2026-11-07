@@ -5,6 +5,9 @@ export default class extends Phaser.State {
   init () {}
 
   preload () {
+    // The HTML poster covers loading; the title screen takes over from here
+    document.querySelector('.poster').remove()
+
     const titleBg = this.game.add.image(0, 0, 'titleBg')
     titleBg.width = this.game.width
     titleBg.height = this.game.height
@@ -34,7 +37,7 @@ export default class extends Phaser.State {
     this.game.add.tween(image.scale).to({ x: 4, y: 4 }, 3000, Phaser.Easing.Quartic.InOut, true, 0, 100, true)
 
     // Text
-    let text = this.add.text(this.world.centerX, this.world.centerY + 300, 'Press the spacebar to continue', {
+    let text = this.add.text(this.world.centerX, this.world.centerY + 300, 'Click or press the spacebar to start', {
       font: '75px Arial',
       fill: '#dddddd',
       align: 'center'
@@ -48,6 +51,9 @@ export default class extends Phaser.State {
     music.loopFull(0.6)
 
     this.spaceBar = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+    // A click starts too: in an embed, that first click is also what gives the
+    // game the keyboard
+    this.input.onDown.addOnce(() => this.state.start('Game'))
   }
 
   render () {

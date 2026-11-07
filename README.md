@@ -80,11 +80,15 @@ npm run preview
 ## Test:
 
 ```bash
-npx playwright install chromium   # once
+npx playwright install chromium firefox webkit   # once
 npm test
 ```
 
-The tests build the site, serve it, and play it in a browser: the head metadata and icons, a round on a desktop (no console errors, failed requests or runaway timers), and the keyboard notice on a phone.
+The tests build the site, serve it, and play it in Chrome, Firefox and Safari (WebKit) on a desktop, plus Android and iPhone: metadata, accessibility (axe), a full round, audio starting from a key press, and the game embedded in another page the way joekarlsson.com shows it (it fits, game keys don't scroll the page, it pauses when scrolled out of view, and full screen works from inside the embed).
+
+## Embedding:
+
+The game is built to run in an iframe as well as on its own page. Give the iframe `allow="fullscreen; autoplay"` and `allowfullscreen` so the full-screen button and sound work. It scales to fit any frame, letterboxed; it pauses when scrolled out of view, and keeps space and the arrow keys from scrolling the page around it.
 
 ## Assets:
 

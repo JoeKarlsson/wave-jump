@@ -12,6 +12,24 @@ export default class extends Phaser.State {
     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
     this.scale.pageAlignHorizontally = true
     this.scale.pageAlignVertically = true
+
+    // Space and the arrow keys would scroll the page around the game, which
+    // matters when it's embedded
+    this.input.keyboard.addKeyCapture([
+      Phaser.Keyboard.SPACEBAR, Phaser.Keyboard.UP, Phaser.Keyboard.DOWN,
+      Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT
+    ])
+
+    // Show the canvas only once it's scaled to fit, so it doesn't jump into
+    // place. A forced refresh always calls the resize callback, and Phaser lays
+    // the canvas out right after it.
+    this.scale.setResizeCallback(() => {
+      this.scale.setResizeCallback(null)
+      queueMicrotask(() => {
+        this.game.canvas.style.visibility = 'visible'
+      })
+    })
+    this.scale.refresh()
     this.fontsReady = false
   }
 

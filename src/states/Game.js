@@ -3,7 +3,6 @@ import Player from '../sprites/Player'
 
 export default class GameState extends Phaser.State {
   init () {
-    this.pressed
     this.rope = null
     this.WAVE_LENGTH = 2
     this.count = 0
@@ -256,8 +255,6 @@ export default class GameState extends Phaser.State {
       this.player1.body.velocity.y = -this.defaultVelocity * 4
       this.player1Clone1.body.velocity.y = -this.defaultVelocity * 4
       this.player1Clone2.body.velocity.y = -this.defaultVelocity * 4
-      this.emitter1.on = true
-      this.pressed = true
     }
     if (this.sKey.isDown) {
       this.player1.body.velocity.y = this.defaultGravity
@@ -267,13 +264,9 @@ export default class GameState extends Phaser.State {
 
     if (this.aKey.isDown) {
       this.player1.body.velocity.x -= 1600
-      this.emitter1.on = true
-      this.pressed = true
     }
     if (this.dKey.isDown) {
       this.player1.body.velocity.x += 1600
-      this.emitter1.on = true
-      this.pressed = true
     }
 
     // PLAYER2 KEYBOARD MAPPING
@@ -281,20 +274,14 @@ export default class GameState extends Phaser.State {
       this.player2.body.velocity.y = -this.defaultVelocity * 4
       this.player2Clone1.body.velocity.y = -this.defaultVelocity * 4
       this.player2Clone2.body.velocity.y = -this.defaultVelocity * 4
-      this.emitter2.on = true
-      this.pressed = true
     }
 
     if (this.leftKey.isDown) {
       this.player2.body.velocity.x -= 1600
-      this.emitter2.on = true
-      this.pressed = true
     }
 
     if (this.rightKey.isDown) {
       this.player2.body.velocity.x += 1600
-      this.emitter2.on = true
-      this.pressed = true
     }
     if (this.downKey.isDown) {
       this.player2.body.velocity.y = this.defaultGravity
@@ -313,10 +300,9 @@ export default class GameState extends Phaser.State {
     this.emitter2.x = this.player2.x
     this.emitter2.y = this.player2.y
 
-    if (!this.pressed) {
-      this.emitter1.on = false
-      this.emitter2.on = false
-    }
+    // Each player leaves a trail only while they're jumping or steering
+    this.emitter1.on = this.wKey.isDown || this.aKey.isDown || this.dKey.isDown
+    this.emitter2.on = this.upKey.isDown || this.leftKey.isDown || this.rightKey.isDown
   }
 
   animateWaves () {

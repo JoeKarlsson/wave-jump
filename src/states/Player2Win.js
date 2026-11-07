@@ -34,7 +34,7 @@ export default class extends Phaser.State {
     this.game.add.tween(image.scale).to({ x: 2, y: 2 }, 2000, Phaser.Easing.Quartic.InOut, true, 0, 100, true)
 
     // Text
-    let text = this.add.text(this.world.centerX, this.world.centerY + 300, 'Press the spacebar to continue', {
+    let text = this.add.text(this.world.centerX, this.world.centerY + 300, 'Click or press the spacebar for the next round', {
       font: '40px Arial',
       fill: '#dddddd',
       align: 'center'
@@ -43,6 +43,7 @@ export default class extends Phaser.State {
   }
   create () {
     this.spaceBar = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+    this.input.onDown.addOnce(() => this.state.start('Game'))
   }
 
   render () {
