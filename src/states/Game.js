@@ -40,8 +40,8 @@ export default class GameState extends Phaser.State {
       let wave = this.game.add.sprite(x, y, 'tempWave', this.game.rnd.between(0, 1))
       wave.anchor.set(0.5, 0.5)
       this.physics.enable(wave, Phaser.Physics.ARCADE)
-      // Deep enough that a landing player can't pass through between frames, shallow
-      // enough that a dive (S or down, ~58px a frame) still goes through
+      // Deep enough that a landing player can't pass through in one step;
+      // diving skips wave collisions instead (see canLandOnWave)
       wave.body.setSize(7, 24, 0, 0)
       this.waves.add(wave)
       wave.collideWorldBounds = true
@@ -248,6 +248,8 @@ export default class GameState extends Phaser.State {
   render () {
     this.player1.body.velocity.x = 0
     this.player2.body.velocity.x = 0
+    this.player1Diving = this.sKey.isDown
+    this.player2Diving = this.downKey.isDown
 
     // PLAYER1 KEYBOARD MAPPING
     if (this.wKey.isDown && (this.player1.body.touching.down || this.player1.body.onFloor())) {
@@ -343,6 +345,12 @@ export default class GameState extends Phaser.State {
     }, this)
   }
 
+  // Holding dive (S or down) lets that player and their clones drop through the wave
+  canLandOnWave (player) {
+    const diving = player.name.startsWith('Player1') ? this.player1Diving : this.player2Diving
+    return !diving
+  }
+
   // Players do not move. I think that they are locked onto the waves that
   // they collided with
   collisionHandler (_obj1, _obj2) {}
@@ -379,18 +387,18 @@ export default class GameState extends Phaser.State {
   }
 
   update () {
-    this.game.physics.arcade.collide(this.player1, this.waves, this.dummyCollisionHandler, null, this)
-    this.game.physics.arcade.collide(this.player2, this.waves, this.dummyCollisionHandler, null, this)
+    this.game.physics.arcade.collide(this.player1, this.waves, this.dummyCollisionHandler, this.canLandOnWave, this)
+    this.game.physics.arcade.collide(this.player2, this.waves, this.dummyCollisionHandler, this.canLandOnWave, this)
     this.game.physics.arcade.collide(this.player1, this.raceGate, this.endGameCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player2, this.raceGate, this.endGameCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player1Clone1, this.raceGate, this.endGameCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player2Clone1, this.raceGate, this.endGameCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player1Clone2, this.raceGate, this.endGameCollisionHandler, null, this)
     this.game.physics.arcade.collide(this.player2Clone2, this.raceGate, this.endGameCollisionHandler, null, this)
-    this.game.physics.arcade.collide(this.player1Clone1, this.waves, this.dummyCollisionHandler, null, this)
-    this.game.physics.arcade.collide(this.player1Clone2, this.waves, this.dummyCollisionHandler, null, this)
-    this.game.physics.arcade.collide(this.player2Clone1, this.waves, this.dummyCollisionHandler, null, this)
-    this.game.physics.arcade.collide(this.player2Clone2, this.waves, this.dummyCollisionHandler, null, this)
+    this.game.physics.arcade.collide(this.player1Clone1, this.waves, this.dummyCollisionHandler, this.canLandOnWave, this)
+    this.game.physics.arcade.collide(this.player1Clone2, this.waves, this.dummyCollisionHandler, this.canLandOnWave, this)
+    this.game.physics.arcade.collide(this.player2Clone1, this.waves, this.dummyCollisionHandler, this.canLandOnWave, this)
+    this.game.physics.arcade.collide(this.player2Clone2, this.waves, this.dummyCollisionHandler, this.canLandOnWave, this)
 
     this.player1.body.gravity.x *= 0.5
     this.player2.body.gravity.x *= 0.5
