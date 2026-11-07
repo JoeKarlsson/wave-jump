@@ -6,6 +6,7 @@ import { test, expect } from '@playwright/test'
 test('audio resumes when the first thing a player does is press the spacebar', async ({ page, isMobile, browserName }) => {
   test.skip(isMobile, 'phones start with a tap, which Phaser already handles')
   test.skip(browserName === 'webkit', 'headless WebKit has no audio device, so its audio is always "interrupted"')
+  test.skip(browserName === 'firefox' && !!process.env.CI, 'Firefox can\'t run audio on the CI runners, which have no sound device')
   await page.goto('/')
   await page.waitForFunction(() => window.game?.state.current === 'Splash', null, { timeout: 15000 })
   await page.evaluate(() => window.game.sound.context.suspend())
