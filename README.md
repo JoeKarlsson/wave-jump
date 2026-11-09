@@ -2,11 +2,10 @@
 
 ![Wave Jump: the sunset title screen, then two players riding a rolling white wave over a blue grid, and a big "Player 1 Wins" screen each time one reaches the checkered gate](.github/readme/2026-11-recording.gif)
 
-Wave Jump is a race for two people sharing one keyboard, made in 48 hours at
-Global Game Jam 2018. You each ride a white wave across an 80s sunset grid, and
-whoever dives through the checkered gate first gets the point. The wave never
-holds still, and you never get the same one twice, so nobody gets to learn the
-course.
+Wave Jump is a race for two people sharing one keyboard. You each ride a white
+wave across an 80s sunset grid, and whoever dives through the checkered gate
+first gets the point. The wave never holds still and you never get the same one
+twice, so nobody gets to learn the course.
 
 [Play it at wavejump.joekarlsson.com](https://wavejump.joekarlsson.com/) ·
 [Read the full statement](https://www.joekarlsson.com/work/wave-jump/)
