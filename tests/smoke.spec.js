@@ -146,7 +146,7 @@ test('the about page has the artist statement, links back to the game, and passe
   const errors = watchForErrors(page)
   await page.goto('/about.html')
   await expect(page.locator('h2', { hasText: 'Artist statement' })).toBeVisible()
-  await expect(page.getByText("it won't work alone")).toBeVisible()
+  await expect(page.getByText('nobody gets to learn the course')).toBeVisible()
   await expect(page.locator('a[href="/"]')).toHaveText('Play Wave Jump')
   const results = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
