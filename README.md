@@ -1,19 +1,15 @@
 # Wave Jump
 
-Wave Jump is an 80s arcade-style race for two players, made in 48 hours at
-Global Game Jam 2018. This repo is the whole game, built with Phaser CE and
-Vite. Play it at [wavejump.joekarlsson.com](https://wavejump.joekarlsson.com/).
-
 ![Wave Jump: the sunset title screen, then two players riding a rolling white wave over a blue grid, and a big "Player 1 Wins" screen each time one reaches the checkered gate](.github/readme/2026-11-recording.gif)
 
-## Artist statement
+Wave Jump is a race for two people sharing one keyboard, made in 48 hours at
+Global Game Jam 2018. You each ride a white wave across an 80s sunset grid, and
+whoever dives through the checkered gate first gets the point. The wave never
+holds still, and you never get the same one twice, so nobody gets to learn the
+course.
 
-It's a race for two people sharing one keyboard, one on W A S D and the other
-on the arrow keys. The wave never holds still, and you never get the same one
-twice, so nobody gets to learn the course. It needs two people at one keyboard,
-so it won't work on a phone, and it won't work alone.
-
-[Read the full statement](https://www.joekarlsson.com/work/wave-jump/).
+[Play it at wavejump.joekarlsson.com](https://wavejump.joekarlsson.com/) ·
+[Read the full statement](https://www.joekarlsson.com/work/wave-jump/)
 
 ## Quick start
 
