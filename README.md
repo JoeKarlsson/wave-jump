@@ -19,6 +19,12 @@ You can play Wave Jump for free today: [https://wavejump.joekarlsson.com/](https
 
 What Wave Jump looked like in November 2026, recorded for [its page on joekarlsson.com](https://www.joekarlsson.com/work/wave-jump/). The full-quality video is [2026-11-recording.mp4](.github/readme/2026-11-recording.mp4).
 
+## Artist statement
+
+It's a race for two people sharing one keyboard, one on W A S D and the other on the arrow keys. The wave never holds still, and you never get the same one twice, so nobody gets to learn the course. It needs two people at one keyboard, so it won't work on a phone, and it won't work alone.
+
+[Read the full statement](https://www.joekarlsson.com/work/wave-jump/). It's also on the game's [about page](https://wavejump.joekarlsson.com/about.html).
+
 ## Setup
 To use this game you'll need to install a few things before you have a working copy of the project.
 

@@ -141,3 +141,22 @@ test('on its own page the game starts with sound, and the button mutes it', asyn
   await page.getByRole('button', { name: 'Turn sound off' }).click()
   expect(await page.evaluate(() => window.game.sound.mute)).toBe(true)
 })
+
+test('the about page has the artist statement, links back to the game, and passes axe', async ({ page }) => {
+  const errors = watchForErrors(page)
+  await page.goto('/about.html')
+  await expect(page.locator('h2', { hasText: 'Artist statement' })).toBeVisible()
+  await expect(page.getByText("it won't work alone")).toBeVisible()
+  await expect(page.locator('a[href="/"]')).toHaveText('Play Wave Jump')
+  const results = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+    .analyze()
+  expect(results.violations.map((violation) => `${violation.id}: ${violation.nodes.map((node) => node.target).join(', ')}`)).toEqual([])
+  expect(errors).toEqual([])
+})
+
+test('the game links to its about page', async ({ page, isMobile }) => {
+  await page.goto('/')
+  const link = isMobile ? page.locator('.keyboard-notice a[href="/about.html"]') : page.locator('.about-link')
+  await expect(link).toBeVisible()
+})

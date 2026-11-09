@@ -29,6 +29,13 @@ export function setUpPageControls (game) {
     soundButton.blur()
   })
 
+  // Embedded, the about page opens in a new tab instead of replacing the game in the frame
+  if (window.self !== window.top) {
+    const aboutLink = document.querySelector('.about-link')
+    aboutLink.target = '_blank'
+    aboutLink.rel = 'noopener'
+  }
+
   const fullscreenButton = document.querySelector('.fullscreen-toggle')
   if (document.fullscreenEnabled) {
     fullscreenButton.hidden = false

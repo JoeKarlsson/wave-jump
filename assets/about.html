@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"
+    />
+    <title>About Wave Jump</title>
+    <meta
+      name="description"
+      content="Artist statement for Wave Jump, a two-player race on one keyboard made at Global Game Jam 2018."
+    />
+    <meta name="author" content="Joe Karlsson" />
+    <link rel="canonical" href="https://wavejump.joekarlsson.com/about.html" />
+    <meta name="theme-color" content="#0a0f3c" />
+    <meta name="color-scheme" content="only light" />
+    <meta name="darkreader-lock" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <style>
+      @font-face {
+        font-family: 'Bangers';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url(/fonts/bangers-latin.woff2) format('woff2');
+      }
+      html,
+      body {
+        margin: 0;
+        background: #0a0f3c;
+        color: #edeec9;
+        font: 18px/1.6 system-ui, sans-serif;
+      }
+      main {
+        max-width: 36rem;
+        margin: 0 auto;
+        padding: 3rem max(1rem, env(safe-area-inset-left)) 4rem;
+      }
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 6px;
+      }
+      h1,
+      h2 {
+        font-family: 'Bangers', system-ui, sans-serif;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        line-height: 1;
+      }
+      h1 {
+        font-size: 3.5rem;
+        margin: 2rem 0 0.5rem;
+        color: #ff4fd8;
+      }
+      h2 {
+        font-size: 2rem;
+        margin: 2.5rem 0 1rem;
+      }
+      .credit {
+        margin: 0;
+        opacity: 0.8;
+      }
+      a {
+        color: #7fe9ff;
+      }
+      a:focus-visible {
+        outline: 3px solid #ffffff;
+        outline-offset: 2px;
+      }
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1.5rem;
+        margin-top: 2.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="/images/title-background.webp" alt="The Wave Jump title over a neon sunset and a glowing blue grid" width="2048" height="1583" />
+      <h1>Wave Jump</h1>
+      <p class="credit">Joe Karlsson with Cal Carlson, Daniel Olson and Lisa Mabley, Global Game Jam 2018</p>
+
+      <h2>Artist statement</h2>
+      <p>
+        Cal Carlson, Daniel Olson, Lisa Mabley and I made Wave Jump at Global Game Jam 2018. It's a race for two
+        people sharing one keyboard, one on W A S D and the other on the arrow keys. You each ride a white wave across
+        an 80s sunset grid, and whoever dives through the checkered gate first gets the point.
+      </p>
+      <p>The wave never holds still, and you never get the same one twice, so nobody gets to learn the course.</p>
+      <p>It needs two people at one keyboard, so it won't work on a phone, and it won't work alone.</p>
+
+      <p class="links">
+        <a href="/">Play Wave Jump</a>
+        <a href="https://www.joekarlsson.com/work/wave-jump/">More about it, with how it's made, on joekarlsson.com</a>
+        <a href="https://github.com/JoeKarlsson/wave-jump">The code on GitHub</a>
+      </p>
+    </main>
+  </body>
+</html>
