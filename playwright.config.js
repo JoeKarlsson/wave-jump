@@ -5,7 +5,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   reporter: process.env.CI ? 'github' : 'list',
-  use: { baseURL: 'http://localhost:4173' },
+  use: { baseURL: 'http://localhost:4177' },
   projects: [
     {
       name: 'desktop',
@@ -22,8 +22,8 @@ export default defineConfig({
     { name: 'iphone', use: { ...devices['iPhone 13'] } }
   ],
   webServer: {
-    command: 'npm run build && npx vite preview --port 4173 --strictPort',
-    url: 'http://localhost:4173',
-    reuseExistingServer: !process.env.CI
+    command: 'npm run build && npx vite preview --port 4177 --strictPort',
+    url: 'http://localhost:4177',
+    reuseExistingServer: false
   }
 })

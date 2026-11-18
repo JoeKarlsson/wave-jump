@@ -1,5 +1,5 @@
 // Renders the PNG icons from favicon.svg and the 1200x630 social card from the
-// title screen. Run after `npm run build` with `npx vite preview` on port 4173.
+// title screen. Run after `npm run build` with `npx vite preview` on port 4177.
 import { chromium } from '@playwright/test'
 import { readFileSync } from 'node:fs'
 
@@ -14,7 +14,7 @@ for (const [file, size] of [['favicon-32.png', 32], ['apple-touch-icon.png', 180
 }
 
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 } })
-await page.goto('http://localhost:4173/')
+await page.goto('http://localhost:4177/')
 await page.waitForFunction(() => window.game?.state.current === 'Splash')
 await page.evaluate(() => {
   // The "press the spacebar" prompt sits at the bottom edge and gets cut off at 630px tall

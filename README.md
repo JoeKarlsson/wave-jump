@@ -28,7 +28,7 @@ npx playwright install chromium firefox webkit   # once
 npm test           # builds the site and plays it in Playwright, with axe
 npm run lint
 npm run build      # production build in dist/
-npm run images     # redraw the icons and social card (build and run `npx vite preview --port 4173` first)
+npm run images     # redraw the icons and social card (build and run `npx vite preview --port 4177` first)
 ```
 
 Everything in `assets/` ships with the site. The full-size art and WAV music

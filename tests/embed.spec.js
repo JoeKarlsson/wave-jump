@@ -7,17 +7,17 @@ const embeddingPage = `<!doctype html>
 <style>body { margin: 0; } .spacer { height: 600px; } .box { width: 800px; aspect-ratio: 16 / 9; overflow: hidden; }
 iframe { width: 1280px; height: 720px; border: 0; transform: scale(0.625); transform-origin: 0 0; }</style>
 <div class="spacer"></div>
-<div class="box"><iframe src="http://localhost:4173/" allow="fullscreen; gamepad; autoplay" allowfullscreen></iframe></div>
+<div class="box"><iframe src="http://localhost:4177/" allow="fullscreen; gamepad; autoplay" allowfullscreen></iframe></div>
 <div class="spacer" style="height: 3000px"></div>`
 
 test.skip(({ isMobile }) => isMobile, 'joekarlsson.com only embeds games on wider screens')
 
 async function openEmbed(page) {
-  await page.route('http://127.0.0.1:4173/embedding-page', (route) => route.fulfill({ contentType: 'text/html', body: embeddingPage }))
-  await page.goto('http://127.0.0.1:4173/embedding-page')
+  await page.route('http://127.0.0.1:4177/embedding-page', (route) => route.fulfill({ contentType: 'text/html', body: embeddingPage }))
+  await page.goto('http://127.0.0.1:4177/embedding-page')
   await page.locator('iframe').scrollIntoViewIfNeeded()
   const frame = page.frameLocator('iframe')
-  const findGameFrame = () => page.frames().find((candidate) => candidate.url().startsWith('http://localhost:4173'))
+  const findGameFrame = () => page.frames().find((candidate) => candidate.url().startsWith('http://localhost:4177'))
   await expect.poll(() => Boolean(findGameFrame())).toBe(true)
   const gameFrame = findGameFrame()
   await gameFrame.waitForFunction(() => window.game?.state.current === 'Splash', null, { timeout: 15000 })
