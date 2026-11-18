@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"
+      content="default-src 'self'; script-src 'self' https://plausible.joekarlsson.io; connect-src 'self' https://plausible.joekarlsson.io; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"
     />
     <title>About Wave Jump</title>
     <meta
@@ -19,6 +19,7 @@
     <meta name="darkreader-lock" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <script src="/analytics.js" defer></script>
     <style>
       @font-face {
         font-family: 'Bangers';

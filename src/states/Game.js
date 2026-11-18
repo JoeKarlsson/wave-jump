@@ -1,5 +1,6 @@
 const Phaser = window.Phaser
 import Player from '../sprites/Player'
+import { trackEvent } from '../analytics'
 
 export default class GameState extends Phaser.State {
   init () {
@@ -10,6 +11,7 @@ export default class GameState extends Phaser.State {
     this.numWaves = Math.ceil(this.game.width / this.WAVE_LENGTH) + 4
     this.waveTotalLength = this.WAVE_LENGTH * this.numWaves
     this.waves = null
+    this.roundOver = false
     this.game.scaleRatio = 0.1
     this.goingUp = true
     this.startTime = this.game.time.time
@@ -206,6 +208,12 @@ export default class GameState extends Phaser.State {
   }
 
   create () {
+    // Scores carry over between rounds, so round 1 only happens once per visit
+    if (this.game.scoreP1 + this.game.scoreP2 === 0) {
+      trackEvent('Game Start', { embedded: window.self !== window.top })
+    } else {
+      trackEvent('Replay')
+    }
     const background = this.game.add.image(0, 0, 'background')
     background.width = this.game.width
     background.height = this.game.height
@@ -344,32 +352,17 @@ export default class GameState extends Phaser.State {
   dummyCollisionHandler (_obj1, _obj2) {}
 
   endGameCollisionHandler (obj1, _obj2) {
-    switch (obj1.name) {
-      case (this.player1.name):
-        this.game.scoreP1 = this.game.scoreP1 + 1
-        this.state.start('Player1Win')
-        break
-      case (this.player1Clone1.name):
-        this.game.scoreP1 = this.game.scoreP1 + 1
-        this.state.start('Player1Win')
-        break
-      case (this.player1Clone2.name):
-        this.game.scoreP1 = this.game.scoreP1 + 1
-        this.state.start('Player1Win')
-        break
-      case (this.player2.name):
-        this.game.scoreP2 = this.game.scoreP2 + 1
-        this.state.start('Player2Win')
-        break
-      case (this.player2Clone1.name):
-        this.game.scoreP2 = this.game.scoreP2 + 1
-        this.state.start('Player2Win')
-        break
-      case (this.player2Clone2.name):
-        this.game.scoreP2 = this.game.scoreP2 + 1
-        this.state.start('Player2Win')
-        break
+    // A player and a clone can both reach the gate in the same frame
+    if (this.roundOver) return
+    this.roundOver = true
+    const winner = obj1.name.startsWith('Player1') ? 'p1' : 'p2'
+    if (winner === 'p1') {
+      this.game.scoreP1 += 1
+    } else {
+      this.game.scoreP2 += 1
     }
+    trackEvent('Round Won', { winner, round: this.game.scoreP1 + this.game.scoreP2 })
+    this.state.start(winner === 'p1' ? 'Player1Win' : 'Player2Win')
   }
 
   update () {

@@ -1,5 +1,6 @@
 // Page-level controls that matter most when the game is embedded in another page:
 // sound and full-screen buttons, and pausing while the game is scrolled out of view.
+import { trackEvent } from './analytics'
 
 // Embedded in another page (the project page on joekarlsson.com) the game starts
 // muted, so nobody scrolling past gets a surprise phone ring or music; the sound
@@ -23,6 +24,7 @@ export function setUpPageControls (game) {
     applySoundSetting(game)
     if (soundOn) {
       game.sound.resumeWebAudioIfSuspended()
+      trackEvent('Sound On')
     }
     showSoundSetting()
     // Otherwise the next spacebar press would toggle the sound again
